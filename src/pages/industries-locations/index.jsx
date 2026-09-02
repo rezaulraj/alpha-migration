@@ -12,7 +12,7 @@ import {
   GiAirplaneArrival,
 } from "react-icons/gi";
 import { HiArrowLongRight } from "react-icons/hi2";
-
+import Image from "next/image";
 import RoundedTwoCornerButton from "@/components/ui/RoundedTwoCornerButton";
 
 if (typeof window !== "undefined") {
@@ -375,6 +375,7 @@ function ReachSection() {
 
 function ClosingCTA() {
   const sectionRef = useRef(null);
+  const imageRef = useRef(null);
   const titleRef = useRef(null);
   const bodyRef = useRef(null);
   const ctaRef = useRef(null);
@@ -386,9 +387,11 @@ function ClosingCTA() {
 
     if (prefersReducedMotion) {
       gsap.set(els, { opacity: 1, y: 0 });
+      gsap.set(imageRef.current, { scale: 1, y: 0 });
       return;
     }
 
+    // Text entrance, once
     gsap.set(els, { opacity: 0, y: 24 });
 
     gsap
@@ -401,15 +404,42 @@ function ClosingCTA() {
         },
       })
       .to(els, { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 });
+
+    // Background parallax, scrubbed to scroll — matches the Leadership
+    // Institute section's treatment
+    gsap.set(imageRef.current, { scale: 1.15, y: 0 });
+    gsap.to(imageRef.current, {
+      y: 70,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
   });
 
   return (
     <section
       ref={sectionRef}
       id="have-a-sector-or-country-in-mind"
-      className="bg-[var(--navbar-surface)] py-16 sm:py-20"
+      className="relative isolate overflow-hidden py-20 sm:py-24"
     >
-      <div className="mx-auto max-w-2xl px-6 text-center text-white sm:px-10">
+      <div ref={imageRef} className="absolute inset-0">
+        <Image
+          src="/images/cta.jpg"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+
+      <div className="absolute inset-0 bg-[var(--navbar-surface)]/85" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.25)_0%,rgba(0,0,0,0.55)_100%)]" />
+
+      <div className="relative z-10 mx-auto max-w-2xl px-6 text-center text-white sm:px-10">
         <h2
           ref={titleRef}
           className="text-balance text-3xl font-bold leading-tight sm:text-4xl"

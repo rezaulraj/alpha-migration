@@ -1,8 +1,22 @@
+import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  HiOutlineClipboardDocumentCheck,
+  HiOutlineChatBubbleLeftRight,
+  HiOutlineAcademicCap,
+  HiOutlineShieldCheck,
+} from "react-icons/hi2";
+import { GiPassport, GiAirplaneArrival } from "react-icons/gi";
 
 import AcademyCard from "@/components/ui/AcademyCard";
 import DualDivSection from "@/components/sections/DualDivSection";
 import RoundedTwoCornerButton from "@/components/ui/RoundedTwoCornerButton";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const CAREER_CARDS = [
   {
@@ -29,6 +43,277 @@ const CAREER_CARDS = [
   },
 ];
 
+const JOURNEY_STEPS = [
+  {
+    number: "01",
+    title: "Register & Screening",
+    description:
+      "Share your experience, skills, and the role/country you're interested in. Our team reviews your background and contacts eligible candidates directly.",
+    Icon: HiOutlineClipboardDocumentCheck,
+  },
+  {
+    number: "02",
+    title: "Interview & Selection",
+    description:
+      "Shortlisted candidates are interviewed and matched to a specific employer and role.",
+    Icon: HiOutlineChatBubbleLeftRight,
+  },
+  {
+    number: "03",
+    title: "Documentation & Visa Processing",
+    description:
+      "We handle your work permit and visa paperwork directly, keeping you informed at every stage.",
+    Icon: GiPassport,
+  },
+  {
+    number: "04",
+    title: "Pre-Departure Training",
+    description:
+      "Before you travel, you'll complete safety, skills, and orientation training — see The Leadership Institute for details.",
+    Icon: HiOutlineAcademicCap,
+  },
+  {
+    number: "05",
+    title: "Deployment & Ongoing Support",
+    description:
+      "We arrange your travel and accommodation, and stay in contact after you arrive to support your transition.",
+    Icon: GiAirplaneArrival,
+  },
+];
+
+function useReveal(sectionRef, build) {
+  useLayoutEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const ctx = gsap.context(() => {
+      build({ prefersReducedMotion });
+    }, sectionRef);
+
+    return () => ctx.revert();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+}
+
+function YourJourneySection() {
+  const sectionRef = useRef(null);
+  const eyebrowRef = useRef(null);
+  const titleRef = useRef(null);
+  const lineRef = useRef(null);
+  const stepRefs = useRef([]);
+  const ctaRef = useRef(null);
+
+  useReveal(sectionRef, ({ prefersReducedMotion }) => {
+    const headerEls = [eyebrowRef.current, titleRef.current].filter(Boolean);
+    const steps = stepRefs.current.filter(Boolean);
+
+    if (prefersReducedMotion) {
+      gsap.set([...headerEls, ...steps, ctaRef.current], { opacity: 1, y: 0 });
+      gsap.set(lineRef.current, { scaleX: 1 });
+      return;
+    }
+
+    gsap.set(headerEls, { opacity: 0, y: 24 });
+    gsap.set(steps, { opacity: 0, y: 28 });
+    gsap.set(ctaRef.current, { opacity: 0, y: 16 });
+    gsap.set(lineRef.current, { scaleX: 0, transformOrigin: "left center" });
+
+    gsap
+      .timeline({
+        defaults: { ease: "power3.out" },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+          once: true,
+        },
+      })
+      .to(headerEls, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 })
+      .to(
+        lineRef.current,
+        { scaleX: 1, duration: 1.1, ease: "power2.inOut" },
+        "-=0.2",
+      )
+      .to(steps, { opacity: 1, y: 0, duration: 0.6, stagger: 0.15 }, "-=0.9")
+      .to(ctaRef.current, { opacity: 1, y: 0, duration: 0.5 }, "-=0.2");
+  });
+
+  return (
+    <section
+      ref={sectionRef}
+      id="your-journey"
+      className="bg-white py-16 sm:py-20 lg:py-24"
+    >
+      <div className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16">
+        <div className="text-center">
+          <p
+            ref={eyebrowRef}
+            className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-500 sm:text-base"
+          >
+            The Candidate Journey
+          </p>
+          <h2
+            ref={titleRef}
+            className="mt-3 text-balance text-3xl font-bold leading-tight text-stone-950 sm:text-4xl lg:text-5xl"
+          >
+            From Registration to Your First Day at Work
+          </h2>
+        </div>
+
+        {/* Desktop: horizontal 5-step process with a connecting line */}
+        <div className="relative mt-16 hidden lg:block">
+          <div className="absolute left-0 right-0 top-8 h-px bg-stone-200">
+            <div
+              ref={lineRef}
+              className="h-px w-full bg-[var(--navbar-surface)]"
+            />
+          </div>
+
+          <div className="grid grid-cols-5 gap-6">
+            {JOURNEY_STEPS.map((step, i) => (
+              <div
+                key={step.number}
+                ref={(el) => {
+                  stepRefs.current[i] = el;
+                }}
+                className="flex flex-col items-center text-center"
+              >
+                <span className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border-4 border-white bg-[var(--navbar-surface)] text-white shadow-[0_10px_30px_rgba(15,23,42,0.15)]">
+                  <step.Icon className="text-2xl" />
+                </span>
+                <span className="mt-4 text-xs font-semibold tracking-[0.2em] text-stone-400">
+                  {step.number}
+                </span>
+                <h3 className="mt-2 text-base font-semibold text-stone-950">
+                  {step.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-stone-600">
+                  {step.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile/tablet: vertical stepper */}
+        <div className="relative mt-12 space-y-8 lg:hidden">
+          <div className="absolute bottom-0 left-8 top-2 w-px bg-stone-200" />
+
+          {JOURNEY_STEPS.map((step, i) => (
+            <div
+              key={step.number}
+              ref={(el) => {
+                stepRefs.current[i] = el;
+              }}
+              className="relative flex gap-5"
+            >
+              <span className="relative z-10 flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-4 border-white bg-[var(--navbar-surface)] text-white shadow-[0_10px_30px_rgba(15,23,42,0.15)]">
+                <step.Icon className="text-2xl" />
+              </span>
+              <div className="pt-2">
+                <span className="text-xs font-semibold tracking-[0.2em] text-stone-400">
+                  {step.number}
+                </span>
+                <h3 className="mt-1 text-base font-semibold text-stone-950 sm:text-lg">
+                  {step.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-stone-600 sm:text-base">
+                  {step.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div ref={ctaRef} className="mt-14 flex justify-center">
+          <RoundedTwoCornerButton href="/contact-us" className="px-7 py-4">
+            Start Your Registration
+          </RoundedTwoCornerButton>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CandidateSupportSection() {
+  const sectionRef = useRef(null);
+  const eyebrowRef = useRef(null);
+  const titleRef = useRef(null);
+  const bodyRef = useRef(null);
+  const badgeRef = useRef(null);
+
+  useReveal(sectionRef, ({ prefersReducedMotion }) => {
+    const els = [
+      eyebrowRef.current,
+      titleRef.current,
+      bodyRef.current,
+      badgeRef.current,
+    ].filter(Boolean);
+
+    if (prefersReducedMotion) {
+      gsap.set(els, { opacity: 1, y: 0 });
+      return;
+    }
+
+    gsap.set(els, { opacity: 0, y: 24 });
+
+    gsap
+      .timeline({
+        defaults: { ease: "power3.out" },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 78%",
+          once: true,
+        },
+      })
+      .to(els, { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 });
+  });
+
+  return (
+    <section
+      ref={sectionRef}
+      id="candidate-support"
+      className="bg-stone-950 py-16 sm:py-20 lg:py-24"
+    >
+      <div className="mx-auto max-w-3xl px-6 text-center sm:px-10">
+        <p
+          ref={eyebrowRef}
+          className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-100/90 sm:text-base"
+        >
+          Support Throughout
+        </p>
+
+        <h2
+          ref={titleRef}
+          className="mt-3 text-balance text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl"
+        >
+          You&apos;re Not Relocating Alone
+        </h2>
+
+        <p
+          ref={bodyRef}
+          className="mx-auto mt-5 max-w-2xl text-base leading-7 text-stone-300 sm:text-lg"
+        >
+          Alpha Migrations arranges accommodation ahead of your arrival and
+          remains a point of contact after you&apos;ve started work, so you have
+          support during the transition to a new country and employer.
+        </p>
+
+        <div
+          ref={badgeRef}
+          className="mx-auto mt-8 inline-flex items-center gap-3 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-6 py-3"
+        >
+          <HiOutlineShieldCheck className="text-2xl text-emerald-400" />
+          <span className="text-sm font-semibold text-emerald-300 sm:text-base">
+            Our recruitment service is free to candidates — you are never
+            charged a fee for a placement.
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function PeopleCareersPage() {
   return (
     <>
@@ -47,24 +332,36 @@ export default function PeopleCareersPage() {
         <div className="relative z-10 mx-auto flex min-h-[38rem] max-w-full items-end px-6 py-14 sm:min-h-[44rem] sm:px-10 sm:py-20 lg:px-16 lg:py-24">
           <div className="max-w-3xl text-white">
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-100 sm:text-base">
-              People &amp; Careers
+              PEOPLE & CAREERS
             </p>
-            <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
-              Build Your Future with Alpha Migration
+            <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              Work Abroad, Supported Every Step of the Way
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-stone-100 sm:mt-7 sm:text-lg sm:leading-8">
-              Step into a workplace where ambition is nurtured, performance is
-              recognized, and growth is continuous. At{" "}
-              <span className="font-bold">Alpha Migration</span>, every role
-              contributes to shaping impactful workforce solutions and creating
-              meaningful opportunities across global markets.
+              <span className="font-bold">Alpha Migrations</span> places
+              candidates from South Asia and the Gulf into construction,
+              hospitality, manufacturing, logistics, agriculture, and
+              transportation roles across Europe and the CIS — handling your
+              documentation, training, and travel arrangements directly, at no
+              cost to you.
             </p>
-            <RoundedTwoCornerButton
-              href="/contact-us"
-              className="mt-8 sm:mt-10"
-            >
-              Explore Opportunities
-            </RoundedTwoCornerButton>
+            <div className="mt-8 flex flex-wrap gap-6 sm:mt-10">
+              <RoundedTwoCornerButton
+                href="#your-journey"
+                className="mt-8 sm:mt-10"
+              >
+                Register Your Interest
+              </RoundedTwoCornerButton>
+              <RoundedTwoCornerButton
+                href="#your-journey"
+                className="mt-8 sm:mt-10 bg-amber-50 hover:text-white"
+                style={{
+                  color: "black",
+                }}
+              >
+                See What to Expect
+              </RoundedTwoCornerButton>
+            </div>
           </div>
         </div>
       </section>
@@ -73,24 +370,26 @@ export default function PeopleCareersPage() {
         id="career-culture"
         image="/images/office-images/office-1.jpg"
         imageAlt="Colleagues in a collaborative workspace discussing ideas."
-        smallTitle="PEOPLE & CAREERS"
-        title="A Culture Designed for Growth"
+        smallTitle="OPPORTUNITIES BY SECTOR"
+        title="Roles Across Six Core Sectors"
         description={
           <>
-            At <span className="font-bold">Alpha Migration</span>, we cultivate
-            a high-performance, people-first culture—where individuals are
-            empowered to excel while staying connected to a shared purpose.
-            <br />
-            <br />
-            From structured onboarding to advanced leadership development, our
-            integrated learning ecosystem supports our people at every stage of
-            their professional journey, ensuring they evolve with confidence and
-            capability.
+            We recruit candidates for roles including site{" "}
+            <span className="text-[#D10138]">
+              labourers, skilled tradespeople, hotel and hospitality staff,
+              factory and production workers, warehouse and logistics staff,
+              agricultural workers, and drivers/transport
+            </span>{" "}
+            operators.
           </>
         }
-        buttonName="Learn More"
+        buttonName="Ask About Roles in Your Sector"
         buttonHref="/contact-us"
       />
+
+      <YourJourneySection />
+
+      <CandidateSupportSection />
 
       <section id="career-pathways" className="bg-[#f6f6f6]">
         <div className="mx-auto max-w-full px-6 py-12 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
