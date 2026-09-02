@@ -4,15 +4,15 @@ export const WHO_WE_ARE_CONTENT = {
   smallTitle: "WHO WE ARE",
   title: (
     <>
-      Vision-Driven.
+      Built Around People,
       <br />
-      People-Focused.
+      Not Just Placements
     </>
   ),
   description:
-    "At Alpha Migration, our mission is to create meaningful opportunities and deliver exceptional workforce solutions that make a lasting impact. We are committed to connecting businesses with talent that drives growth, innovation, and success across global markets.",
-  buttonName: "Explore Our Journey",
-  buttonHref: "/contact-us",
+    "Alpha Migrations is a UK-based international recruitment agency. We work on both sides of every placement — helping employers build reliable teams and helping candidates access genuine, well-documented work opportunities abroad.",
+  buttonName: "Discover Who We Are",
+  buttonHref: "/who-we-are",
 };
 
 export const PEOPLE_AND_CAREERS_CONTENT = {
@@ -35,16 +35,16 @@ export const PEOPLE_AND_CAREERS_CONTENT = {
 export const INVESTOR_RELATIONS_CONTENT = {
   id: "investor-relations",
   image: "/images/homepage_investor_relations.avif",
-  smallTitle: "TERMS & CONDITION",
+  smallTitle: "Explore Our Journey",
   title: (
     <>
       Let&apos;s Build <br />
-      The Future <br />
+      Your Workforce <br />
       Together
     </>
   ),
   description:
-    "Alpha Migration is committed to driving economic growth and creating meaningful workforce opportunities. As a trusted partner in global recruitment, we contribute to building stronger businesses and a more dynamic global economy.",
-  buttonName: "Explore Our Journey",
+    "Whether you're hiring your first international team or scaling an existing workforce, Alpha Migrations is ready to manage the process from recruitment through to deployment.",
+  buttonName: "Start Your Recruitment",
   buttonHref: "/contact-us",
 };

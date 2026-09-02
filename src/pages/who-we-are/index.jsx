@@ -31,83 +31,91 @@ export default function WhoWeArePage() {
         <div className="relative z-10 mx-auto flex min-h-[44rem] max-w-full items-center px-6 py-16 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
           <div className="max-w-4xl text-white">
             <h1 className="text-5xl font-bold leading-none tracking-tight sm:text-6xl lg:text-7xl">
-              Vision Driven
+              Vision-Driven. People-Focused.
             </h1>
 
             <div className="mt-8 max-w-3xl space-y-5 text-base leading-8 text-stone-100 sm:text-lg">
-              <p>Creating Exceptional Workforce Experiences, Every Day</p>
-
               <p>
-                At <span className="font-bold">Alpha Migration</span>, we
-                believe that opportunity should be seamless, and success should
-                be accessible. We are driven by a singular purpose—to connect
-                world-class talent with forward-thinking organizations, enabling
-                both to thrive in an increasingly competitive global landscape.
-              </p>
-              <p>
-                Our approach is built on precision, efficiency, and a deep
-                understanding of evolving workforce needs—ensuring every
-                interaction delivers value, clarity, and impact.
+                Alpha Migrations is a UK-based international recruitment agency.
+                We connect employers across Europe and the CIS with skilled and
+                semi-skilled workers from South Asia and the Gulf, managing
+                every stage of the process — sourcing, documentation,
+                deployment, and support — directly.
               </p>
             </div>
+            <RoundedTwoCornerButton
+              href="#vision-values"
+              className="px-7 py-4 mt-8"
+            >
+              Meet Our Approach
+            </RoundedTwoCornerButton>
           </div>
         </div>
       </section>
 
       <DualDivSection
-        id="vision-values"
+        id="recruitment-approach"
         image="/images/who_we_are_great_moments.webp"
         imageAlt="A retail destination showcasing innovative spaces and experiences."
         smallTitle="WHO WE ARE"
-        title="Vision & Values"
+        title="Recruitment Built on Direct Relationships"
         description={
           <>
-            At Alpha Migration, we operate at the intersection of talent,
-            strategy, and opportunity. Our commitment is to deliver workforce
-            solutions that are not only efficient but transformative—supporting
-            businesses in achieving sustainable growth while empowering
-            individuals to build meaningful careers.
+            We work directly with employers and candidates — not through layers
+            of subcontracted agents — so that every placement is accountable to
+            us from first contact through to a worker&apos;s first weeks on the
+            job.
             <br />
-            <br />
-            Guided by integrity, excellence, and long-term partnerships, we go
-            beyond conventional recruitment. We create tailored manpower
-            solutions that align with organizational goals, culture, and future
-            ambitions.
-            <br />
-            <br />
-            <span className="font-bold">Our vision is clear:</span>
-            <br />
-            to redefine workforce mobility and create lasting value through
-            exceptional talent solutions.
+            Our focus is on dependable, well-documented recruitment across the
+            sectors that keep businesses running: construction, hospitality,
+            manufacturing, logistics, agriculture, and transportation.
           </>
         }
-        buttonName="Explore More"
-        buttonHref="/contact-us"
+        // buttonName="Explore More"
+        // buttonHref="/contact-us"
+      />
+
+      <DualDivSection
+        id="vision-values"
+        image="/images/who_we_are_the_journey_so_far.avif"
+        imageAlt="A view representing Majid Al Futtaim's journey and milestones."
+        smallTitle="VISION & VALUES"
+        title="What Guides Our Recruitment"
+        description={
+          <>
+            Alpha Migrations has grown by focusing on dependable delivery rather
+            than volume — building relationships with employers and candidates
+            that continue beyond a single placement.
+            <br />
+            No specific years, employee counts, or placement figures included
+            per your instruction to avoid unverified numbers. If you have real
+            milestones to share, they can be added here.
+          </>
+        }
+        // buttonName="Explore Our Journey"
+        // buttonHref="/contact-us"
+        imageOnRight
       />
 
       <DualDivSection
         id="our-journey"
-        image="/images/who_we_are_the_journey_so_far.avif"
-        imageAlt="A view representing Majid Al Futtaim's journey and milestones."
-        smallTitle="WHO WE ARE"
-        title="Our Journey"
+        image="/images/jurney.jpg"
+        imageAlt="A retail destination showcasing innovative spaces and experiences."
+        smallTitle="OUR JOURNEY"
+        title="Steady Growth, Built on Trust"
         description={
           <>
-            From our inception,{" "}
-            <span className="font-bold">Alpha Migration</span> has been focused
-            on delivering impact at scale—bridging talent across borders and
-            industries. Through strategic insight and operational excellence, we
-            have built a reputation as a trusted partner for organizations
-            seeking dependable, high-quality manpower solutions.
+            Alpha Migrations has grown by focusing on dependable delivery rather
+            than volume — building relationships with employers and candidates
+            that continue beyond a single placement.
             <br />
-            Our journey is defined by continuous growth, innovation, and a
-            commitment to excellence—positioning us as a leading force in global
-            recruitment and workforce management.
+            No specific years, employee counts, or placement figures included
+            per your instruction to avoid unverified numbers. If you have real
+            milestones to share, they can be added here.
           </>
         }
-        buttonName="Explore Our Journey"
-        buttonHref="/contact-us"
-        imageOnRight
+        // buttonName="Explore More"
+        // buttonHref="/contact-us"
       />
 
       <section id="sustainability-esg" className="bg-white">
@@ -130,28 +138,26 @@ export default function WhoWeArePage() {
               <div className="relative z-10 flex h-full items-center justify-center p-6 text-center sm:p-8 lg:p-10">
                 <div className="space-y-5 text-white">
                   <h1 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-                    Sustainability &amp; ESG
+                    RESPONSIBLE RECRUITMENT
                   </h1>
                   <h3 className="text-xl font-bold leading-tight">
-                    Responsible Growth. Enduring Impact.
+                    Fair Process, From First Contact to Placement
                   </h3>
                   <p className="text-base text-white max-w-3xl mx-auto">
-                    At Alpha Migration, sustainability is embedded in the way we
-                    operate. We are committed to ethical recruitment practices,
-                    transparent processes, and creating equitable opportunities
-                    for talent worldwide.
+                    International recruitment carries real risk for candidates
+                    if handled carelessly. Alpha Migrations manages
+                    documentation, work permits, and visas directly, and
+                    provides pre-departure and post-arrival support so
+                    candidates are not left to navigate relocation alone. We
+                    operate a no-fee recruitment model: candidates are never
+                    charged for their placement.
                   </p>
-                  <p className="text-base text-white max-w-3xl mx-auto">
-                    By supporting workforce development, promoting fair
-                    employment standards, and contributing to economic progress,
-                    we aim to create long-term value for businesses,
-                    individuals, and the communities we serve.
-                  </p>
+
                   <RoundedTwoCornerButton
-                    href="/contact-us"
+                    href="/industries-locations"
                     className="px-7 py-4"
                   >
-                    Learn More
+                    See Where We Operate
                   </RoundedTwoCornerButton>
                 </div>
               </div>

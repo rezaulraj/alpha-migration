@@ -6,6 +6,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "WHO WE ARE", href: "/who-we-are" },
+  { label: "Industries & Locations", href: "/industries-locations" },
   { label: "PEOPLE & CAREERS", href: "/people-careers" },
   {
     label: "The Leadership Institute",
@@ -48,7 +49,7 @@ export default function Navbar() {
       <nav
         role="navigation"
         className={[
-          "overflow-hidden text-[12px] font-semibold uppercase tracking-[0.16em] transition-colors backdrop-blur",
+          "overflow-hidden text-[12px] font-semibold uppercase tracking-[0.10em] transition-colors backdrop-blur",
           isScrolled
             ? "bg-[var(--navbar-surface)]"
             : "bg-[var(--navbar-overlay)]",
@@ -60,18 +61,18 @@ export default function Navbar() {
             <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
               <Image
                 src="/images/logo2.png"
-                alt="Ljudia"
+                alt="alpha migrations logo"
                 width={1500}
                 height={1394}
                 priority
-                className="h-10 w-auto object-contain sm:h-12"
+                className="h-12 w-auto object-contain sm:h-16"
               />
             </Link>
           </div>
 
           {/* Center: main nav items */}
           <div className="hidden min-w-0 items-center justify-end lg:flex">
-            <ul className="flex items-center gap-8 text-[11px] xl:gap-10">
+            <ul className="flex items-center gap-8 text-[12px] xl:gap-10">
               {desktopNavItems.map((item) => (
                 <li key={item.label}>
                   <Link

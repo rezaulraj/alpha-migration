@@ -1,20 +1,87 @@
+import { useLayoutEffect, useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import RoundedTwoCornerButton from "@/components/ui/RoundedTwoCornerButton";
 
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
 export default function GrowWithus() {
+  const sectionRef = useRef(null);
+  const imageRef = useRef(null);
+  const eyebrowRef = useRef(null);
+  const titleRef = useRef(null);
+  const copyRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const ctx = gsap.context(() => {
+      const textEls = [
+        eyebrowRef.current,
+        titleRef.current,
+        copyRef.current,
+        buttonRef.current,
+      ].filter(Boolean);
+
+      if (prefersReducedMotion) {
+        gsap.set(textEls, { opacity: 1, y: 0 });
+        gsap.set(imageRef.current, { scale: 1, y: 0 });
+        return;
+      }
+
+      // Entrance: text lifts in once the section is in view
+      gsap.set(textEls, { opacity: 0, y: 28 });
+
+      gsap
+        .timeline({
+          defaults: { ease: "power3.out" },
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            once: true,
+          },
+        })
+        .to(textEls, { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 });
+
+      // Parallax: image drifts slower than scroll while the section is in frame
+      gsap.set(imageRef.current, { scale: 1.15, y: 0 });
+      gsap.to(imageRef.current, {
+        y: 80,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
       id="leadership-institute"
-      className="relative isolate min-h-[42rem]overflow-hidden bg-stone-950"
+      ref={sectionRef}
+      className="relative isolate min-h-[42rem] overflow-hidden bg-stone-950"
     >
-      <Image
-        src="/images/leadership-institute-spotlight.jpeg"
-        alt="Leadership Institute participants collaborating in a development session."
-        fill
-        sizes="100vw"
-        className="object-cover object-center"
-      />
+      <div ref={imageRef} className="absolute inset-0">
+        <Image
+          src="/images/leadership-institute-spotlight.jpeg"
+          alt="Leadership Institute participants collaborating in a development session."
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
 
       <div className="absolute inset-0 bg-black/35" />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,24,39,0.86)_0%,rgba(17,24,39,0.68)_40%,rgba(17,24,39,0.1)_100%)]" />
@@ -22,24 +89,38 @@ export default function GrowWithus() {
       <div className="relative z-10 flex min-h-[42rem] flex-col lg:flex-row">
         <div className="flex w-full items-center px-6 py-16 sm:px-10 lg:w-1/2 lg:px-16">
           <div className="max-w-xl space-y-6 text-white">
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-100 sm:text-base">
-              LEADERSHIP INSTITUTE
+            <p
+              ref={eyebrowRef}
+              className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-100 sm:text-base"
+            >
+              THE LEADERSHIP INSTITUTE
             </p>
 
-            <h2 className="text-4xl font-semibold leading-tight text-balance sm:text-5xl">
-              Grow With Us
+            <h2
+              ref={titleRef}
+              className="text-4xl font-semibold leading-tight text-balance sm:text-5xl"
+            >
+              Trained, Certified, and Ready to Work
             </h2>
 
-            <p className="text-sm leading-7 text-stone-200 sm:text-base">
-              The Leadership Institute at Alpha Migration offers innovative,
-              hands-on development programs in collaboration with global
-              experts. We cultivate leadership, empower individuals, and prepare
-              organizations for the future.
+            <p
+              ref={copyRef}
+              className="text-sm leading-7 text-stone-200 sm:text-base"
+            >
+              Every candidate placed through Alpha Migrations completes
+              structured pre-deployment training — covering workplace safety,
+              role-specific skills, and orientation to their new country and
+              employer — before relocating.
             </p>
 
-            <RoundedTwoCornerButton href="/contact-us" className="px-7 py-4">
-              Explore More
-            </RoundedTwoCornerButton>
+            <div ref={buttonRef}>
+              <RoundedTwoCornerButton
+                href="/leadership-institute"
+                className="px-7 py-4"
+              >
+                Explore Pre-Deployment Training
+              </RoundedTwoCornerButton>
+            </div>
           </div>
         </div>
 
