@@ -1,7 +1,5 @@
-import { useLayoutEffect, useRef } from "react";
+// pages/people-careers.jsx
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   HiOutlineClipboardDocumentCheck,
   HiOutlineChatBubbleLeftRight,
@@ -9,39 +7,17 @@ import {
   HiOutlineShieldCheck,
 } from "react-icons/hi2";
 import { GiPassport, GiAirplaneArrival } from "react-icons/gi";
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import AcademyCard from "@/components/ui/AcademyCard";
 import DualDivSection from "@/components/sections/DualDivSection";
+import CurrentOpenCareers from "@/components/sections/CurrentOpenCareers";
 import RoundedTwoCornerButton from "@/components/ui/RoundedTwoCornerButton";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
-
-const CAREER_CARDS = [
-  {
-    image: "/images/office-images/office-2.jpg",
-    imageAlt: "Team members collaborating in a bright office environment.",
-    title: "Early Careers",
-    description:
-      "A strong foundation for future success. Our early career programs are designed to equip graduates and emerging professionals with essential business skills through structured onboarding, mentorship, and hands-on project experience.Participants gain real-world exposure, accelerate their learning curve, and build the confidence needed to thrive in a competitive global environment.",
-  },
-  {
-    image: "/images/office-images/office-3.jpg",
-    imageAlt: "Professionals in a strategy conversation during a team meeting.",
-    title: "Professional Growth",
-    description:
-      "Purposeful progression at every stage. We offer clearly defined, role-based pathways and cross-functional opportunities that enable our professionals to deepen expertise and expand their strategic perspective.Through targeted development programs, stretch assignments, and continuous feedback, our people are empowered to advance their careers while strengthening their leadership capabilities.",
-  },
-  {
-    image: "/images/office-images/office-4.jpg",
-    imageAlt:
-      "Modern collaborative office space representing future-focused careers.",
-    title: "Future Skills",
-    description:
-      "Preparing talent for tomorrow’s workforce. Our forward-looking development approach focuses on digital transformation, innovation, and adaptability—ensuring our teams remain agile in a rapidly evolving world.By combining practical learning, collaborative problem-solving, and emerging skill development, we enable our people to deliver measurable impact and lead with confidence.",
-  },
-];
 
 const JOURNEY_STEPS = [
   {
@@ -160,7 +136,6 @@ function YourJourneySection() {
           </h2>
         </div>
 
-        {/* Desktop: horizontal 5-step process with a connecting line */}
         <div className="relative mt-16 hidden lg:block">
           <div className="absolute left-0 right-0 top-8 h-px bg-stone-200">
             <div
@@ -195,7 +170,6 @@ function YourJourneySection() {
           </div>
         </div>
 
-        {/* Mobile/tablet: vertical stepper */}
         <div className="relative mt-12 space-y-8 lg:hidden">
           <div className="absolute bottom-0 left-8 top-2 w-px bg-stone-200" />
 
@@ -353,7 +327,7 @@ export default function PeopleCareersPage() {
                 Register Your Interest
               </RoundedTwoCornerButton>
               <RoundedTwoCornerButton
-                href="#your-journey"
+                href="#current-openings"
                 className="mt-8 sm:mt-10 bg-amber-50 hover:text-white"
                 style={{
                   color: "black",
@@ -391,25 +365,7 @@ export default function PeopleCareersPage() {
 
       <CandidateSupportSection />
 
-      <section id="career-pathways" className="bg-[#f6f6f6]">
-        <div className="mx-auto max-w-full px-6 py-12 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
-          <h2 className="text-3xl font-bold leading-[1.05] tracking-tight text-black sm:text-5xl lg:text-7xl">
-            CAREER PATHWAYS
-          </h2>
-
-          <div className="mt-10 grid grid-cols-1 justify-items-center gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {CAREER_CARDS.map((card) => (
-              <AcademyCard
-                key={card.title}
-                image={card.image}
-                imageAlt={card.imageAlt}
-                title={card.title}
-                description={card.description}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+      <CurrentOpenCareers />
     </>
   );
 }
