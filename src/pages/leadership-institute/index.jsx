@@ -1,194 +1,224 @@
+import { useLayoutEffect, useRef } from "react";
+import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  HiOutlineGlobeAlt,
+  HiOutlineShieldCheck,
+  HiOutlineClipboardDocumentCheck,
+} from "react-icons/hi2";
+
 import GrowWithus from "@/components/sections/GrowWithus";
 import DualDivSection from "@/components/sections/DualDivSection";
-import AcademyCard from "@/components/ui/AcademyCard";
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import RoundedTwoCornerButton from "@/components/ui/RoundedTwoCornerButton";
+import CandidateSupportHero from "@/components/sections/CandidateSupportHero";
 
-const KEY_FACTS = [
-  { target: 3000, label: "Active Learners", suffix: "", decimals: 0 },
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+const TRAINING_STAGES = [
   {
-    target: 13000,
-    label: "Learning Hours Delivered",
-    suffix: "+",
-    decimals: 0,
+    number: "01",
+    title: "Orientation & Induction",
+    description:
+      "A structured introduction to your new employer, workplace expectations, and destination country — covering culture, basic language essentials, and day-to-day practicalities.",
+    Icon: HiOutlineGlobeAlt,
+    image: "/images/train1.png",
   },
   {
-    target: 4.7,
-    label: "Average Satisfaction Rating",
-    suffix: "/5",
-    decimals: 1,
+    number: "02",
+    title: "Skills & Safety Certification",
+    description:
+      "Role-specific skills training and workplace safety certification relevant to your sector — construction site safety, food hygiene and hospitality standards, machine operation, or equivalent, depending on placement.",
+    Icon: HiOutlineShieldCheck,
+    image: "/images/train2.png",
   },
   {
-    target: 10,
-    label: "Specialized Learning Academies",
-    suffix: "",
-    decimals: 0,
+    number: "03",
+    title: "Pre-Departure Briefing",
+    description:
+      "A final briefing before travel covering documentation, travel logistics, accommodation arrangements, and who to contact once you arrive.",
+    Icon: HiOutlineClipboardDocumentCheck,
+    image: "/images/train3.png",
   },
 ];
 
-const ABOUT_SECTION_IMAGE = "/images/aboutthevenue.avif";
-const PEOPLE_FOLDER_IMAGES = [
-  "/images/people/maf-leads.avif",
-  "/images/people/learning-activation.avif",
-  "/images/people/ulearn.avif",
-  "/images/people/women-in-leadership.avif",
-  "/images/people/community---picture-3.avif",
-  "/images/people/people-management-academy.webp",
-  "/images/people/uae-national-leadership-image.avif",
-  "/images/people/ai-academy.webp",
-  "/images/people/community---picture-2.avif",
-];
+function useReveal(sectionRef, build) {
+  useLayoutEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
-const LEARNING_CARDS = [
-  {
-    image: PEOPLE_FOLDER_IMAGES[0],
-    imageAlt:
-      "Leadership workshop environment designed for collaborative learning.",
-    title: "Induction Academy",
-    description:
-      "A structured onboarding experience designed to immerse new joiners into the culture, values, and operational standards of Alpha Migration. Through practical learning and early engagement, individuals gain clarity, confidence, and a strong foundation for success.",
-  },
-  {
-    image: PEOPLE_FOLDER_IMAGES[1],
-    imageAlt:
-      "Participants joining a facilitated academy session focused on skills growth.",
-    title: "Leadership Essentials",
-    description:
-      "A focused capability-building program for current and aspiring leaders. Through interactive workshops, real-world scenarios, and peer learning, participants enhance communication, decision-making, and team alignment in dynamic business environments.",
-  },
-  {
-    image: PEOPLE_FOLDER_IMAGES[2],
-    imageAlt:
-      "Modern learning space prepared for immersive training activities.",
-    title: "Digital Learning Hub",
-    description:
-      "An always-on, technology-enabled learning platform offering curated pathways, self-paced modules, and collaborative knowledge sharing. It empowers individuals to upskill continuously while aligning development with both immediate performance and long-term career goals.",
-  },
-];
+    const ctx = gsap.context(() => {
+      build({ prefersReducedMotion });
+    }, sectionRef);
 
-const LEADERSHIP_DEVELOPMENT_CARDS = [
-  {
-    image: PEOPLE_FOLDER_IMAGES[3],
-    imageAlt: "Leadership cohort participating in a facilitated workshop.",
-    title: "Emerging Leaders Pathway",
-    description:
-      "Designed for first-time leaders, this program builds essential people management capabilities—including coaching, feedback, and performance leadership—while fostering trust, accountability, and a growth mindset.",
-  },
-  {
-    image: PEOPLE_FOLDER_IMAGES[4],
-    imageAlt:
-      "Senior professionals collaborating during a leadership development session.",
-    title: "Strategic Leadership Lab",
-    description:
-      "An advanced, application-driven experience that sharpens strategic thinking, cross-functional decision-making, and stakeholder management. Leaders engage with complex business scenarios to balance long-term vision with operational excellence.",
-  },
-  {
-    image: PEOPLE_FOLDER_IMAGES[5],
-    imageAlt: "Leadership participants in a modern development academy setup.",
-    title: "Executive Growth Studio",
-    description:
-      "A premium leadership track tailored for senior executives. Combining executive coaching, peer exchange, and business simulations, this program strengthens leadership presence, succession readiness, and enterprise-wide impact.",
-  },
-];
+    return () => ctx.revert();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+}
 
-const LEARNING_LEADERSHIP_COMMUNITY_CARDS = [
-  {
-    image: PEOPLE_FOLDER_IMAGES[6],
-    imageAlt:
-      "Cross-functional colleagues collaborating in a community workshop.",
-    title: "Peer Learning Circle",
-    description:
-      "A collaborative platform where professionals share insights, solve real challenges, and learn from collective experience—fostering innovation, trust, and continuous improvement.",
-  },
-  {
-    image: PEOPLE_FOLDER_IMAGES[7],
-    imageAlt:
-      "Employees participating in a learning and leadership roundtable.",
-    title: "Mentor Connect Program",
-    description:
-      "A structured mentorship journey that supports career progression through guided reflection, goal setting, and practical leadership development—enabling individuals to unlock their full potential.",
-  },
-  {
-    image: PEOPLE_FOLDER_IMAGES[8],
-    imageAlt: "Community members joining an interactive leadership session.",
-    title: "Leadership Exchange Forum",
-    description:
-      "A strategic forum where leaders explore industry trends, exchange best practices, and co-create ideas that enhance organizational capability and agility in a rapidly evolving market.",
-  },
-  {
-    image: PEOPLE_FOLDER_IMAGES[1],
-    imageAlt: "enviroment members joining an interactive leadership session.",
-    title: "OUR LEARNING ENVIRONMENT",
-    description:
-      "The Leadership Institute at Alpha Migration is more than a training facility—it is a hub for transformation. Designed to inspire both personal and professional development, it integrates modern learning spaces with environments that promote collaboration, reflection, and wellbeing.From dynamic meeting zones to open, wellness-focused areas, our institute supports holistic development—empowering leaders to think clearly, act decisively, and lead with purpose.",
-  },
-];
+function TrainingProgrammesSection() {
+  const sectionRef = useRef(null);
+  const eyebrowRef = useRef(null);
+  const titleRef = useRef(null);
+  const cardRefs = useRef([]);
 
-function formatCounter(value, fact) {
-  const safeValue = Number.isFinite(value) ? value : 0;
+  useReveal(sectionRef, ({ prefersReducedMotion }) => {
+    const headerEls = [eyebrowRef.current, titleRef.current].filter(Boolean);
+    const cards = cardRefs.current.filter(Boolean);
 
-  const formattedValue =
-    fact.decimals > 0
-      ? safeValue.toLocaleString("en-US", {
-          minimumFractionDigits: fact.decimals,
-          maximumFractionDigits: fact.decimals,
-        })
-      : Math.round(safeValue).toLocaleString("en-US");
+    if (prefersReducedMotion) {
+      gsap.set([...headerEls, ...cards], { opacity: 1, y: 0 });
+      return;
+    }
 
-  return `${formattedValue}${fact.suffix}`;
+    gsap.set(headerEls, { opacity: 0, y: 24 });
+    gsap.set(cards, { opacity: 0, y: 32, scale: 0.97 });
+
+    gsap
+      .timeline({
+        defaults: { ease: "power3.out" },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+          once: true,
+        },
+      })
+      .to(headerEls, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 })
+      .to(
+        cards,
+        { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.12 },
+        "-=0.35",
+      );
+  });
+
+  return (
+    <section
+      ref={sectionRef}
+      id="training-programmes"
+      className="bg-white py-16 sm:py-20 lg:py-24"
+    >
+      <div className="mx-auto container px-6 text-center sm:px-10 lg:px-16">
+        <p
+          ref={eyebrowRef}
+          className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-500 sm:text-base"
+        >
+          What Training Covers
+        </p>
+        <h2
+          ref={titleRef}
+          className="mt-3 text-balance text-3xl font-bold leading-tight text-stone-950 sm:text-4xl lg:text-5xl"
+        >
+          Three Stages of Preparation
+        </h2>
+
+        <div className="mt-12 grid grid-cols-1 justify-items-center gap-10 md:grid-cols-3 md:gap-8">
+          {TRAINING_STAGES.map((stage, i) => (
+            <article
+              key={stage.number}
+              ref={(el) => {
+                cardRefs.current[i] = el;
+              }}
+              className="mx-auto w-full max-w-[26rem] space-y-5 text-left text-[var(--gray-dark)]"
+            >
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-tr-[2.5rem] rounded-bl-[2.5rem] bg-stone-200 sm:rounded-tr-[3.5rem] sm:rounded-bl-[3.5rem]">
+                <Image
+                  src={stage.image}
+                  alt={stage.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 26rem"
+                  className="object-cover"
+                />
+                <span className="absolute left-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-[var(--navbar-surface)] text-white shadow-lg">
+                  <stage.Icon className="text-xl" />
+                </span>
+              </div>
+
+              <div className="space-y-2">
+                <span className="text-xs font-semibold tracking-[0.2em] text-stone-400">
+                  {stage.number}
+                </span>
+                <h3 className="text-xl font-semibold leading-tight text-stone-950 sm:text-2xl">
+                  {stage.title}
+                </h3>
+                <p className="text-sm leading-6 text-stone-600 sm:text-base sm:leading-7">
+                  {stage.description}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ClosingCTA() {
+  const sectionRef = useRef(null);
+  const titleRef = useRef(null);
+  const bodyRef = useRef(null);
+  const ctaRef = useRef(null);
+
+  useReveal(sectionRef, ({ prefersReducedMotion }) => {
+    const els = [titleRef.current, bodyRef.current, ctaRef.current].filter(
+      Boolean,
+    );
+
+    if (prefersReducedMotion) {
+      gsap.set(els, { opacity: 1, y: 0 });
+      return;
+    }
+
+    gsap.set(els, { opacity: 0, y: 24 });
+
+    gsap
+      .timeline({
+        defaults: { ease: "power3.out" },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          once: true,
+        },
+      })
+      .to(els, { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 });
+  });
+
+  return (
+    <section
+      ref={sectionRef}
+      id="prepare-your-next-placement"
+      className="bg-white py-16 sm:py-20 lg:py-24"
+    >
+      <div className="mx-auto max-w-2xl px-6 text-center sm:px-10">
+        <h2
+          ref={titleRef}
+          className="text-balance text-3xl font-bold leading-tight text-stone-950 sm:text-4xl"
+        >
+          Prepare Your Next Placement
+        </h2>
+
+        <p
+          ref={bodyRef}
+          className="mt-4 text-base leading-7 text-stone-600 sm:text-lg"
+        >
+          Whether you&apos;re an employer wanting to understand how your future
+          team is trained, or a candidate preparing to relocate, we&apos;re
+          happy to walk you through the process.
+        </p>
+
+        <div ref={ctaRef} className="mt-8 flex justify-center">
+          <RoundedTwoCornerButton href="/contact-us" className="px-7 py-4">
+            Contact Our Team
+          </RoundedTwoCornerButton>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default function LeadershipInstitutePage() {
-  const keyFactsRef = useRef(null);
-  const [animateCounters, setAnimateCounters] = useState(false);
-  const [counterValues, setCounterValues] = useState(() =>
-    KEY_FACTS.map(() => 0),
-  );
-
-  useEffect(() => {
-    if (!keyFactsRef.current || animateCounters) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry?.isIntersecting) {
-          setAnimateCounters(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.35 },
-    );
-
-    observer.observe(keyFactsRef.current);
-    return () => observer.disconnect();
-  }, [animateCounters]);
-
-  useEffect(() => {
-    if (!animateCounters) return;
-
-    const durationMs = 1600;
-    let frameId = 0;
-    let startTime = null;
-
-    const animateFrame = (timestamp) => {
-      if (startTime === null) {
-        startTime = timestamp;
-      }
-
-      const progress = Math.min((timestamp - startTime) / durationMs, 1);
-      const easedProgress = 1 - Math.pow(1 - progress, 3);
-
-      setCounterValues(KEY_FACTS.map((fact) => fact.target * easedProgress));
-
-      if (progress < 1) {
-        frameId = requestAnimationFrame(animateFrame);
-      }
-    };
-
-    frameId = requestAnimationFrame(animateFrame);
-    return () => cancelAnimationFrame(frameId);
-  }, [animateCounters]);
-
   return (
     <>
       <GrowWithus />
@@ -197,124 +227,25 @@ export default function LeadershipInstitutePage() {
         id="mission-overview"
         image="/images/learning-mission-and-overview.avif"
         imageAlt="Leadership development participants in a collaborative learning session."
-        smallTitle="THE LEADERSHIP INSTITUTE"
-        title="Mission & Overview"
+        smallTitle="MISSION & OVERVIEW"
+        title="Ready Before Day One"
         description={
           <>
-            At <span className="font-bold">Alpha Migration</span>, learning is
-            guided by three defining principles: Lead by Empowering Others. Own
-            Your Growth. Learn Without Boundaries.
-            <br />
-            <br />
-            We believe development is both an individual responsibility and a
-            shared commitment. Knowledge flows across teams, functions, and
-            leadership levels—creating a culture where collaboration,
-            mentorship, and continuous learning are embedded into everyday work.
-            <br />
-            <br />
-            Our people are encouraged to take ownership of their growth journey,
-            supported by an ecosystem that integrates learning seamlessly into
-            performance. This dynamic approach enables us to build stronger
-            professionals, deliver greater business impact, and contribute
-            meaningfully to the global workforce landscape.
+            We believe every worker deployed through{" "}
+            <span className="font-bold text-[#242322]">Alpha Migrations</span>{" "}
+            should arrive prepared — confident in the safety standards, skills,
+            and workplace expectations of their new role, and oriented to the
+            country and culture they&apos;re moving to. Training is completed
+            before departure, not left to happen on the job.
           </>
         }
       />
 
-      <section id="key-facts" ref={keyFactsRef} className="bg-[#e8e8e8]">
-        <div className="mx-auto flex min-h-[30rem] max-w-full flex-col justify-between px-6 py-16 sm:min-h-[34rem] sm:px-10 sm:py-20 lg:min-h-[38rem] lg:px-16 lg:py-24">
-          <h2 className="max-w-md text-4xl font-bold leading-[1.08] text-black sm:text-5xl lg:text-6xl">
-            Key Facts
-            <br />
-            (2024 - 2026)
-          </h2>
+      <TrainingProgrammesSection />
 
-          <div className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-10 lg:mt-5 lg:grid-cols-4 lg:gap-8">
-            {KEY_FACTS.map((fact, index) => (
-              <article key={fact.label} className="text-center lg:self-end">
-                <p className="text-4xl font-semibold tracking-tight text-[#a98b58] sm:text-5xl lg:text-6xl">
-                  {formatCounter(counterValues[index], fact)}
-                </p>
-                <p className="mx-auto mt-4 max-w-[14rem] text-xs font-semibold uppercase leading-[1.35] tracking-[0.16em] text-black sm:text-sm">
-                  {fact.label}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <CandidateSupportHero />
 
-      <section id="learning" className="bg-white">
-        <div className="mx-auto max-w-full px-6 py-12 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
-          <h2 className="text-3xl font-bold leading-[1.05] tracking-tight text-black sm:text-5xl lg:text-7xl">
-            LEARNING
-          </h2>
-
-          <div className="mt-10 grid grid-cols-1 justify-items-center gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {LEARNING_CARDS.map((card) => (
-              <AcademyCard
-                key={card.title}
-                image={card.image}
-                imageAlt={card.imageAlt}
-                title={card.title}
-                description={card.description}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="leadership-development" className="bg-[#f6f6f6]">
-        <div className="mx-auto max-w-full px-6 py-12 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
-          <h2 className="text-3xl font-bold leading-[1.05] tracking-tight text-black sm:text-5xl lg:text-7xl">
-            LEADERSHIP DEVELOPMENT
-          </h2>
-
-          <div className="mt-10 grid grid-cols-1 justify-items-center gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {LEADERSHIP_DEVELOPMENT_CARDS.map((card) => (
-              <AcademyCard
-                key={card.title}
-                image={card.image}
-                imageAlt={card.imageAlt}
-                title={card.title}
-                description={card.description}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="learning-leadership-community" className="bg-white">
-        <div className="mx-auto max-w-full px-6 py-12 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
-          <h2 className="max-w-5xl text-balance text-3xl font-bold leading-[1.05] tracking-tight text-black sm:text-5xl lg:text-7xl">
-            LEARNING &amp; LEADERSHIP COMMUNITY
-          </h2>
-
-          <div className="mt-10 grid grid-cols-1 justify-items-center gap-8 md:grid-cols-2 xl:grid-cols-3">
-            {LEARNING_LEADERSHIP_COMMUNITY_CARDS.map((card) => (
-              <AcademyCard
-                key={card.title}
-                image={card.image}
-                imageAlt={card.imageAlt}
-                title={card.title}
-                description={card.description}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="about-image">
-        <div className="relative h-[45vh] min-h-[22rem] w-full sm:h-[55vh] lg:h-[68vh]">
-          <Image
-            src={ABOUT_SECTION_IMAGE}
-            alt="Leadership Institute participants collaborating in an immersive learning space."
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
-      </section>
+      <ClosingCTA />
     </>
   );
 }

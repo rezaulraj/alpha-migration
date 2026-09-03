@@ -771,7 +771,7 @@ export default function CurrentOpenCareers() {
   return (
     <section
       ref={sectionRef}
-      id="current-openings"
+      id="careers"
       className="bg-white py-16 sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16">

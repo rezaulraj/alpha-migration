@@ -100,25 +100,29 @@ export default function GrowWithus() {
               ref={titleRef}
               className="text-4xl font-semibold leading-tight text-balance sm:text-5xl"
             >
-              Trained, Certified, and Ready to Work
+              Grow With Purpose. Work With Confidence.
             </h2>
 
             <p
               ref={copyRef}
               className="text-sm leading-7 text-stone-200 sm:text-base"
             >
-              Every candidate placed through Alpha Migrations completes
-              structured pre-deployment training — covering workplace safety,
-              role-specific skills, and orientation to their new country and
-              employer — before relocating.
+              The Leadership Institute prepares every candidate placed through
+              <span className="font-bold text-white">
+                {" "}
+                Alpha Migrations
+              </span>{" "}
+              for life and work abroad — through safety training, role-specific
+              skills certification, and orientation to their new country and
+              employer.
             </p>
 
             <div ref={buttonRef}>
               <RoundedTwoCornerButton
-                href="/leadership-institute"
+                href="/contact-us"
                 className="px-7 py-4"
               >
-                Explore Pre-Deployment Training
+                Ask About Training for Your Placement
               </RoundedTwoCornerButton>
             </div>
           </div>

@@ -1,4 +1,3 @@
-// pages/people-careers.jsx
 import Image from "next/image";
 import {
   HiOutlineClipboardDocumentCheck,
@@ -200,8 +199,8 @@ function YourJourneySection() {
         </div>
 
         <div ref={ctaRef} className="mt-14 flex justify-center">
-          <RoundedTwoCornerButton href="/contact-us" className="px-7 py-4">
-            Start Your Registration
+          <RoundedTwoCornerButton href="#careers" className="px-7 py-4">
+            View Current Openings
           </RoundedTwoCornerButton>
         </div>
       </div>
@@ -321,13 +320,13 @@ export default function PeopleCareersPage() {
             </p>
             <div className="mt-8 flex flex-wrap gap-6 sm:mt-10">
               <RoundedTwoCornerButton
-                href="#your-journey"
+                href="/contact-us"
                 className="mt-8 sm:mt-10"
               >
                 Register Your Interest
               </RoundedTwoCornerButton>
               <RoundedTwoCornerButton
-                href="#current-openings"
+                href="#your-journey"
                 className="mt-8 sm:mt-10 bg-amber-50 hover:text-white"
                 style={{
                   color: "black",

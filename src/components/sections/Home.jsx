@@ -188,18 +188,18 @@ export default function HomeSection() {
 
           <div
             ref={ctaRef}
-            className="flex flex-wrap items-center justify-center gap-3 pt-1"
+            className="flex flex-wrap items-center justify-center gap-6 pt-1"
           >
             <Link
               href="/contact-us"
-              className="inline-flex h-12 w-fit items-center justify-center rounded-full border border-transparent bg-(--navbar-surface) px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              className="inline-flex h-12 w-fit items-center justify-center px-6 py-6 rounded-bl-3xl rounded-tr-3xl border border-transparent bg-(--navbar-surface) hover:bg-[var(--pinkLight)] text-base uppercase font-semibold text-white transition-opacity hover:opacity-90"
             >
               Hire International Workers
             </Link>
 
             <Link
               href="/people-careers"
-              className="inline-flex h-12 w-52 items-center justify-center rounded-full border border-white/80 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-(--navbar-accent) hover:text-(--navbar-accent)"
+              className="inline-flex h-12 w-52 items-center justify-center uppercase rounded-bl-3xl rounded-tr-3xl border border-white/80 px-6 py-6 text-sm font-semibold text-white hover:bg-[var(--pinkLight)] transition-colors"
             >
               Find a Job Abroad
             </Link>

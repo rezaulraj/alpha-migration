@@ -99,7 +99,7 @@ export default function Footer() {
             </div>
 
             <nav aria-label="Footer navigation" className="w-full md:max-w-190">
-              <ul className="grid list-disc grid-cols-1 gap-x-10 gap-y-3 pl-4 text-[11px] font-semibold uppercase tracking-[0.16em] marker:text-white/60 sm:grid-cols-2 lg:grid-cols-3">
+              <ul className="grid list-disc grid-cols-1 gap-x-10 gap-y-3 pl-4 text-[12px] font-semibold uppercase tracking-[0.16em] marker:text-white/60 sm:grid-cols-2 lg:grid-cols-3">
                 {FOOTER_NAV_ITEMS.map((item) => (
                   <li key={item.label}>
                     <Link
