@@ -118,13 +118,13 @@ export default function Footer() {
         {/* OUR LOCATIONS Section */}
         <div className="border-b border-white/10 px-5 py-8">
           <div className="mx-auto w-full max-w-350">
-            <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-white/70">
+            <h3 className="mb-4 text-base font-semibold uppercase tracking-[0.16em] text-white/70">
               OUR LOCATIONS
             </h3>
             <div className="flex flex-col gap-6 sm:flex-row sm:gap-8 md:gap-12">
               {LOCATIONS.map((location) => (
                 <div key={location.name} className="flex-1">
-                  <p className="text-sm font-semibold text-(--navbar-accent)">
+                  <p className="text-base font-semibold text-(--navbar-accent)">
                     {location.name}
                   </p>
                   <p className="mt-1 text-xs text-white/70">
@@ -150,7 +150,7 @@ export default function Footer() {
       </footer>
 
       <div className="px-5 py-5 text-[11px] uppercase tracking-[0.12em] text-black/80">
-        <div className="mx-auto w-full max-w-350">
+        <div className="tect-center mx-auto w-full max-w-350 text-center">
           <p>&copy; Alpha Migration {currentYear}. All rights reserved.</p>
         </div>
       </div>
