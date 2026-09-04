@@ -6,10 +6,21 @@ import {
   INVESTOR_RELATIONS_CONTENT,
   WHO_WE_ARE_CONTENT,
 } from "@/data/siteContent";
+import Head from "next/head";
 
 export default function Home() {
   return (
     <>
+      <Head>
+        <title>
+          Alpha Migrations | International Workforce Recruitment for Europe &
+          CIS Employers
+        </title>
+        <meta
+          name="description"
+          content="Start a conversation with Alpha Migrations about hiring support, people programs, and partnership opportunities."
+        />
+      </Head>
       <HomeSection />
       <DualDivSection {...WHO_WE_ARE_CONTENT} />
       <WhatweDo />

@@ -14,6 +14,7 @@ import {
 import { HiArrowLongRight } from "react-icons/hi2";
 import Image from "next/image";
 import RoundedTwoCornerButton from "@/components/ui/RoundedTwoCornerButton";
+import Head from "next/head";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -471,6 +472,15 @@ function ClosingCTA() {
 export default function IndustriesLocationsPage() {
   return (
     <>
+      <Head>
+        <title>
+          Industries We Serve & Countries We Cover | Alpha Migrations
+        </title>
+        <meta
+          name="description"
+          content="Start a conversation with Alpha Migrations about hiring support, people programs, and partnership opportunities."
+        />
+      </Head>
       <HeroSection />
       <SectorsSection />
       <ReachSection />

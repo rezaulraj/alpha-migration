@@ -71,10 +71,10 @@ export default function Footer() {
         <div className="border-b border-white/10 px-5 py-10">
           <div className="mx-auto flex w-full max-w-350 flex-col gap-8 md:flex-row md:items-start md:justify-between">
             <div className="flex items-center gap-4">
-              <Link href="/" aria-label="Ljudia home" className="inline-flex">
+              <Link href="/" aria-label="Alpha home" className="inline-flex">
                 <Image
                   src="/images/logo2.png"
-                  alt="Ljudia"
+                  alt="Alpha Migrations"
                   width={1500}
                   height={1394}
                   className="h-12 w-auto object-contain sm:h-16"

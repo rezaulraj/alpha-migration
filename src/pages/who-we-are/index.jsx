@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import DualDivSection from "@/components/sections/DualDivSection";
 import RoundedTwoCornerButton from "@/components/ui/RoundedTwoCornerButton";
+import Head from "next/head";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -238,6 +239,13 @@ function ResponsibleRecruitmentSection() {
 export default function WhoWeArePage() {
   return (
     <>
+      <Head>
+        <title>Who We Are | Alpha Migrations</title>
+        <meta
+          name="description"
+          content="Start a conversation with Alpha Migrations about hiring support, people programs, and partnership opportunities."
+        />
+      </Head>
       <HeroSection />
 
       <DualDivSection

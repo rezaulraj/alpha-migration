@@ -178,7 +178,7 @@ export default function HomeSection() {
           <div className="mx-auto flex max-w-2xl flex-col items-center space-y-6 text-center text-white">
             <h1
               ref={headingRef}
-              className="text-balance text-4xl font-semibold sm:text-5xl lg:text-6xl"
+              className="text-balance text-4xl font-semibold sm:text-5xl lg:text-7xl"
             >
               Reliable Workforce Recruitment, Border to Border
             </h1>

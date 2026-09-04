@@ -12,6 +12,7 @@ import GrowWithus from "@/components/sections/GrowWithus";
 import DualDivSection from "@/components/sections/DualDivSection";
 import RoundedTwoCornerButton from "@/components/ui/RoundedTwoCornerButton";
 import CandidateSupportHero from "@/components/sections/CandidateSupportHero";
+import Head from "next/head";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -221,6 +222,15 @@ function ClosingCTA() {
 export default function LeadershipInstitutePage() {
   return (
     <>
+      <Head>
+        <title>
+          Pre-Deployment Training | The Leadership Institute | Alpha Migrations
+        </title>
+        <meta
+          name="description"
+          content="Start a conversation with Alpha Migrations about hiring support, people programs, and partnership opportunities."
+        />
+      </Head>
       <GrowWithus />
 
       <DualDivSection

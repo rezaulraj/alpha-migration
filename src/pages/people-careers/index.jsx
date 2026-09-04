@@ -14,6 +14,7 @@ import DualDivSection from "@/components/sections/DualDivSection";
 import CurrentOpenCareers from "@/components/sections/CurrentOpenCareers";
 import RoundedTwoCornerButton from "@/components/ui/RoundedTwoCornerButton";
 import JourneyRouteSection from "@/components/sections/JourneyRouteSection";
+import Head from "next/head";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -263,62 +264,71 @@ function CandidateSupportSection() {
 export default function PeopleCareersPage() {
   return (
     <>
-    <div className="bg-white">
-
-      <section
-        className={[
-          "relative isolate min-h-[38rem] overflow-hidden bg-stone-950 sm:min-h-[44rem]",
-          DIAGONAL_BOTTOM_CLASS,
-        ].join(" ")}
-      >
-        <Image
-          src="/images/buildyourself.avif"
-          alt="People and Careers at Majid Al Futtaim"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
+      <Head>
+        <title>
+          Careers Abroad | Jobs for Skilled & Semi-Skilled Workers | Alpha
+          Migrations
+        </title>
+        <meta
+          name="description"
+          content="Start a conversation with Alpha Migrations about hiring support, people programs, and partnership opportunities."
         />
-        <div className="absolute inset-0 bg-black/35" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,24,39,0.86)_0%,rgba(17,24,39,0.72)_38%,rgba(17,24,39,0.2)_100%)]" />
+      </Head>
+      <div className="bg-white">
+        <section
+          className={[
+            "relative isolate min-h-[38rem] overflow-hidden bg-stone-950 sm:min-h-[44rem]",
+            DIAGONAL_BOTTOM_CLASS,
+          ].join(" ")}
+        >
+          <Image
+            src="/images/buildyourself.avif"
+            alt="People and Careers at Majid Al Futtaim"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black/35" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,24,39,0.86)_0%,rgba(17,24,39,0.72)_38%,rgba(17,24,39,0.2)_100%)]" />
 
-        <div className="relative z-10 mx-auto flex min-h-[38rem] max-w-full items-end px-6 py-14 sm:min-h-[44rem] sm:px-10 sm:py-20 lg:px-16 lg:py-24">
-          <div className="max-w-3xl text-white">
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-100 sm:text-base">
-              PEOPLE & CAREERS
-            </p>
-            <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-              Work Abroad, Supported Every Step of the Way
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-7 text-stone-100 sm:mt-7 sm:text-lg sm:leading-8">
-              <span className="font-bold">Alpha Migrations</span> places
-              candidates from South Asia and the Gulf into construction,
-              hospitality, manufacturing, logistics, agriculture, and
-              transportation roles across Europe and the CIS — handling your
-              documentation, training, and travel arrangements directly, at no
-              cost to you.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-6 sm:mt-10">
-              <RoundedTwoCornerButton
-                href="/contact-us"
-                className="mt-8 sm:mt-10"
-              >
-                Register Your Interest
-              </RoundedTwoCornerButton>
-              <RoundedTwoCornerButton
-                href="#your-journey"
-                className="mt-8 sm:mt-10 bg-amber-50 hover:text-white"
-                style={{
-                  color: "black",
-                }}
-              >
-                See What to Expect
-              </RoundedTwoCornerButton>
+          <div className="relative z-10 mx-auto flex min-h-[38rem] max-w-full items-end px-6 py-14 sm:min-h-[44rem] sm:px-10 sm:py-20 lg:px-16 lg:py-24">
+            <div className="max-w-3xl text-white">
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-100 sm:text-base">
+                PEOPLE & CAREERS
+              </p>
+              <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+                Work Abroad, Supported Every Step of the Way
+              </h1>
+              <p className="mt-6 max-w-2xl text-base leading-7 text-stone-100 sm:mt-7 sm:text-lg sm:leading-8">
+                <span className="font-bold">Alpha Migrations</span> places
+                candidates from South Asia and the Gulf into construction,
+                hospitality, manufacturing, logistics, agriculture, and
+                transportation roles across Europe and the CIS — handling your
+                documentation, training, and travel arrangements directly, at no
+                cost to you.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-6 sm:mt-10">
+                <RoundedTwoCornerButton
+                  href="/contact-us"
+                  className="mt-8 sm:mt-10"
+                >
+                  Register Your Interest
+                </RoundedTwoCornerButton>
+                <RoundedTwoCornerButton
+                  href="#your-journey"
+                  className="mt-8 sm:mt-10 bg-amber-50 hover:text-white"
+                  style={{
+                    color: "black",
+                  }}
+                >
+                  See What to Expect
+                </RoundedTwoCornerButton>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
 
       <DualDivSection
         id="career-culture"
