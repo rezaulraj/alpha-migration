@@ -13,6 +13,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import DualDivSection from "@/components/sections/DualDivSection";
 import CurrentOpenCareers from "@/components/sections/CurrentOpenCareers";
 import RoundedTwoCornerButton from "@/components/ui/RoundedTwoCornerButton";
+import JourneyRouteSection from "@/components/sections/JourneyRouteSection";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -75,7 +76,6 @@ function YourJourneySection() {
   const sectionRef = useRef(null);
   const eyebrowRef = useRef(null);
   const titleRef = useRef(null);
-  const lineRef = useRef(null);
   const stepRefs = useRef([]);
   const ctaRef = useRef(null);
 
@@ -85,14 +85,12 @@ function YourJourneySection() {
 
     if (prefersReducedMotion) {
       gsap.set([...headerEls, ...steps, ctaRef.current], { opacity: 1, y: 0 });
-      gsap.set(lineRef.current, { scaleX: 1 });
       return;
     }
 
     gsap.set(headerEls, { opacity: 0, y: 24 });
     gsap.set(steps, { opacity: 0, y: 28 });
     gsap.set(ctaRef.current, { opacity: 0, y: 16 });
-    gsap.set(lineRef.current, { scaleX: 0, transformOrigin: "left center" });
 
     gsap
       .timeline({
@@ -104,12 +102,7 @@ function YourJourneySection() {
         },
       })
       .to(headerEls, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1 })
-      .to(
-        lineRef.current,
-        { scaleX: 1, duration: 1.1, ease: "power2.inOut" },
-        "-=0.2",
-      )
-      .to(steps, { opacity: 1, y: 0, duration: 0.6, stagger: 0.15 }, "-=0.9")
+      .to(steps, { opacity: 1, y: 0, duration: 0.6, stagger: 0.15 }, "-=0.4")
       .to(ctaRef.current, { opacity: 1, y: 0, duration: 0.5 }, "-=0.2");
   });
 
@@ -134,42 +127,17 @@ function YourJourneySection() {
             From Registration to Your First Day at Work
           </h2>
         </div>
+      </div>
 
-        <div className="relative mt-16 hidden lg:block">
-          <div className="absolute left-0 right-0 top-8 h-px bg-stone-200">
-            <div
-              ref={lineRef}
-              className="h-px w-full bg-[var(--navbar-surface)]"
-            />
-          </div>
+      {/* Desktop: canvas-drawn route with scroll-scrubbed progress line */}
+      <div className="mt-12">
+        <JourneyRouteSection steps={JOURNEY_STEPS} />
+      </div>
 
-          <div className="grid grid-cols-5 gap-6">
-            {JOURNEY_STEPS.map((step, i) => (
-              <div
-                key={step.number}
-                ref={(el) => {
-                  stepRefs.current[i] = el;
-                }}
-                className="flex flex-col items-center text-center"
-              >
-                <span className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border-4 border-white bg-[var(--navbar-surface)] text-white shadow-[0_10px_30px_rgba(15,23,42,0.15)]">
-                  <step.Icon className="text-2xl" />
-                </span>
-                <span className="mt-4 text-xs font-semibold tracking-[0.2em] text-stone-400">
-                  {step.number}
-                </span>
-                <h3 className="mt-2 text-base font-semibold text-stone-950">
-                  {step.title}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-stone-600">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative mt-12 space-y-8 lg:hidden">
+      {/* Mobile/tablet: simple vertical stepper (the route layout needs
+          the width lg: provides for its alternating left/right cards) */}
+      <div className="mx-auto max-w-6xl px-6 sm:px-10 lg:hidden lg:px-16">
+        <div className="relative mt-12 space-y-8">
           <div className="absolute bottom-0 left-8 top-2 w-px bg-stone-200" />
 
           {JOURNEY_STEPS.map((step, i) => (
@@ -197,7 +165,9 @@ function YourJourneySection() {
             </div>
           ))}
         </div>
+      </div>
 
+      <div className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16">
         <div ref={ctaRef} className="mt-14 flex justify-center">
           <RoundedTwoCornerButton href="#careers" className="px-7 py-4">
             View Current Openings

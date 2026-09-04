@@ -22,6 +22,7 @@ const SLIDES = [
       "We identify, screen, and shortlist candidates from our source markets in South Asia and the Gulf, matched to your role, sector, and site requirements.",
     buttonLabel: "Submit a Vacancy",
     link: "/contact-us",
+    imageSide: "right",
   },
   {
     id: "talent",
@@ -33,6 +34,7 @@ const SLIDES = [
       "From site labourers to trained machine operators, we recruit across construction, hospitality, manufacturing, logistics, agriculture, and transportation.",
     buttonLabel: "Discuss Your Workforce Needs",
     link: "/contact-us",
+    imageSide: "left",
   },
   {
     id: "future",
@@ -41,9 +43,10 @@ const SLIDES = [
     eyebrow: "Documentation & Visa Support",
     title: "We Handle the Paperwork",
     description:
-      " Work permits, visas, and compliance documentation are managed directly by our team — for both employer and candidate — reducing delay and risk on both sides.",
+      "Work permits, visas, and compliance documentation are managed directly by our team — for both employer and candidate — reducing delay and risk on both sides.",
     buttonLabel: "Ask About Documentation Support",
     link: "/contact-us",
+    imageSide: "right",
   },
   {
     id: "spaces",
@@ -55,6 +58,7 @@ const SLIDES = [
       "Every candidate completes safety, skills, and orientation training before relocating, with accommodation and post-arrival support in place on arrival.",
     buttonLabel: "Explore Pre-Deployment Training",
     link: "/leadership-institute",
+    imageSide: "left",
   },
 ];
 
@@ -62,17 +66,29 @@ function getSlideIndex(indexDelta, activeIndex) {
   return (activeIndex + indexDelta + SLIDES.length) % SLIDES.length;
 }
 
+// Tilted parallelogram frame for the photo panel. Two mirrored variants
+// so the tilt direction reads correctly whichever side the photo sits on.
+const FRAME_CLIP_RIGHT = "polygon(8% 0%, 100% 4%, 92% 100%, 0% 96%)";
+const FRAME_CLIP_LEFT = "polygon(0% 4%, 92% 0%, 100% 96%, 8% 100%)";
+
+// Diagonal wipe used when the photo frame itself transitions between
+// slides — same visual language as the hero's diagonal cut.
+const FULL_CLIP = "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)";
+const HIDDEN_CLIP_FROM_RIGHT =
+  "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)";
+const HIDDEN_CLIP_FROM_LEFT = "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)";
+
 export default function WhatweDo() {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const directionRef = useRef(1);
   const prevIndexRef = useRef(0);
 
   const sectionRef = useRef(null);
-  const headerIconRef = useRef(null);
   const headerEyebrowRef = useRef(null);
   const headerTitleRef = useRef(null);
   const sliderWrapRef = useRef(null);
   const articleRefs = useRef({});
+  const frameRefs = useRef({});
   const imageRefs = useRef({});
   const contentRefs = useRef({});
 
@@ -88,7 +104,6 @@ export default function WhatweDo() {
     goTo(index, index > activeSlideIndex ? 1 : -1);
   };
 
-  // Autoplay
   useLayoutEffect(() => {
     const intervalId = window.setInterval(() => {
       goTo(getSlideIndex(1, activeSlideIndex), 1);
@@ -97,8 +112,7 @@ export default function WhatweDo() {
     return () => window.clearInterval(intervalId);
   }, [activeSlideIndex]);
 
-  // Sequenced intro: header reveals first, then the slider (and its first
-  // slide's content + image) follows — one timeline, one moment.
+  // Sequenced intro
   useLayoutEffect(() => {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -106,18 +120,22 @@ export default function WhatweDo() {
 
     const ctx = gsap.context(() => {
       const headerEls = [
-        headerIconRef.current,
         headerEyebrowRef.current,
         headerTitleRef.current,
       ].filter(Boolean);
 
       SLIDES.forEach((slide, index) => {
         const isActive = index === 0;
+        const clip =
+          slide.imageSide === "right" ? FRAME_CLIP_RIGHT : FRAME_CLIP_LEFT;
+
         gsap.set(articleRefs.current[slide.id], {
           opacity: isActive ? 1 : 0,
-          zIndex: isActive ? 1 : 0,
+          zIndex: isActive ? 2 : 0,
         });
+        gsap.set(frameRefs.current[slide.id], { clipPath: clip });
         gsap.set(imageRefs.current[slide.id], { scale: 1.06 });
+
         if (!isActive) {
           gsap.set(contentRefs.current[slide.id]?.children ?? [], {
             opacity: 0,
@@ -151,17 +169,13 @@ export default function WhatweDo() {
         },
       });
 
-      // 1. Header first
       tl.to(headerEls, { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 })
-        // 2. Slider container follows, slightly overlapping the header's tail
         .to(sliderWrapRef.current, { opacity: 1, y: 0, duration: 0.8 }, "-=0.2")
-        // 3. First slide's copy staggers in as the slider settles
         .to(
           firstContent,
           { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 },
           "-=0.45",
         )
-        // 4. Background image begins its slow zoom-out at the same moment
         .to(
           imageRefs.current[SLIDES[0].id],
           { scale: 1, duration: SLIDE_ADVANCE_DELAY / 1000, ease: "sine.out" },
@@ -173,7 +187,8 @@ export default function WhatweDo() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Directional crossfade on every slide change
+  // Slide transition: the tilted photo frame wipes in from the direction
+  // of travel; the text panel slides in from the opposite side.
   useLayoutEffect(() => {
     const previousIndex = prevIndexRef.current;
     if (previousIndex === activeSlideIndex) return undefined;
@@ -188,46 +203,47 @@ export default function WhatweDo() {
     const ctx = gsap.context(() => {
       const outArticle = articleRefs.current[prevSlide.id];
       const inArticle = articleRefs.current[nextSlide.id];
+      const inFrame = frameRefs.current[nextSlide.id];
+      const inImage = imageRefs.current[nextSlide.id];
       const inContent = contentRefs.current[nextSlide.id]?.children ?? [];
       const outContent = contentRefs.current[prevSlide.id]?.children ?? [];
-      const inImage = imageRefs.current[nextSlide.id];
 
-      gsap.killTweensOf([
-        outArticle,
-        inArticle,
-        inImage,
-        ...inContent,
-        ...outContent,
-      ]);
+      const targetClip =
+        nextSlide.imageSide === "right" ? FRAME_CLIP_RIGHT : FRAME_CLIP_LEFT;
+      const startClip =
+        nextSlide.imageSide === "right"
+          ? HIDDEN_CLIP_FROM_RIGHT
+          : HIDDEN_CLIP_FROM_LEFT;
 
-      gsap.set(inArticle, { zIndex: 2 });
-      gsap.set(outArticle, { zIndex: 1 });
+      gsap.killTweensOf([inFrame, inImage, ...inContent, ...outContent]);
+
+      gsap.set(outArticle, { zIndex: 1, opacity: 1 });
+      gsap.set(inArticle, { zIndex: 2, opacity: 1 });
+      gsap.set(inFrame, { clipPath: startClip });
 
       if (prefersReducedMotion) {
-        gsap.set(outArticle, { opacity: 0 });
-        gsap.set(inArticle, { opacity: 1 });
+        gsap.set(inFrame, { clipPath: targetClip });
         gsap.set(inContent, { opacity: 1, x: 0 });
         gsap.set(inImage, { scale: 1 });
         return;
       }
 
-      gsap.set(inContent, { opacity: 0, x: direction * 36 });
+      gsap.set(inContent, { opacity: 0, x: direction * 32 });
       gsap.set(inImage, { scale: 1.06 });
 
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
 
-      tl.to(outContent, { opacity: 0, x: -direction * 24, duration: 0.4 })
-        .to(outArticle, { opacity: 0, duration: 0.6 }, "<")
-        .to(inArticle, { opacity: 1, duration: 0.7 }, "-=0.3")
+      tl.to(outContent, { opacity: 0, x: -direction * 20, duration: 0.35 })
+        .to(inFrame, { clipPath: targetClip, duration: 1 }, "-=0.1")
         .to(
           inContent,
-          { opacity: 1, x: 0, duration: 0.6, stagger: 0.1 },
-          "-=0.45",
+          { opacity: 1, x: 0, duration: 0.6, stagger: 0.1, ease: "power3.out" },
+          "-=0.55",
         )
         .to(
           inImage,
           { scale: 1, duration: SLIDE_ADVANCE_DELAY / 1000, ease: "sine.out" },
-          "-=0.6",
+          "-=0.9",
         );
     }, sectionRef);
 
@@ -236,18 +252,8 @@ export default function WhatweDo() {
   }, [activeSlideIndex]);
 
   return (
-    <section ref={sectionRef} className="relative bg-[#FFFFFF]">
-      {/* 1. Static header block — its own space, above the slider */}
+    <section ref={sectionRef} className="relative bg-white">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 px-6 text-center">
-        {/* <span ref={headerIconRef} className="inline-flex">
-          <Image
-            src="/images/icons/services-mark.svg"
-            alt=""
-            width={28}
-            height={28}
-            className="h-6 w-6 opacity-90 sm:h-7 sm:w-7"
-          />
-        </span> */}
         <p
           ref={headerEyebrowRef}
           className="text-xs font-semibold uppercase tracking-[0.32em] text-stone-900/90 sm:text-sm"
@@ -262,13 +268,13 @@ export default function WhatweDo() {
         </h2>
       </div>
 
-      {/* 2. Image slider — follows the header, in normal flow below it */}
       <div
         ref={sliderWrapRef}
-        className="relative isolate mt-10 h-svh min-h-140 overflow-hidden sm:mt-12 lg:mt-14"
+        className="relative isolate mt-10 h-svh min-h-140 overflow-hidden bg-stone-950 sm:mt-12 lg:mt-14"
       >
         {SLIDES.map((slide, index) => {
           const isActive = index === activeSlideIndex;
+          const imageOnRight = slide.imageSide === "right";
 
           return (
             <article
@@ -278,54 +284,61 @@ export default function WhatweDo() {
               }}
               aria-hidden={!isActive}
               className={[
-                "absolute inset-0",
+                "absolute inset-0 flex flex-col lg:flex-row",
+                imageOnRight ? "" : "lg:flex-row-reverse",
                 isActive ? "" : "pointer-events-none",
               ].join(" ")}
             >
-              <div className="absolute inset-0 overflow-hidden">
-                <div
-                  ref={(el) => {
-                    if (el) imageRefs.current[slide.id] = el;
-                  }}
-                  className="absolute inset-0"
-                >
-                  <Image
-                    src={slide.image}
-                    alt={slide.imageAlt}
-                    fill
-                    priority={index === 0}
-                    sizes="100vw"
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-
-              <div className="absolute inset-0 bg-black/35" />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,0.12)_0%,rgba(10,10,10,0.58)_100%)]" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(123,19,48,0.35),transparent_34%)]" />
-
-              <div className="relative z-10 flex h-full items-start px-6 py-8 sm:px-10 sm:py-10 lg:px-16 lg:py-14">
+              {/* Text panel — solid brand background, no photo behind it */}
+              <div className="relative z-10 flex w-full flex-1 items-center bg-[var(--navbar-surface)] px-6 py-10 sm:px-10 lg:w-1/2 lg:px-16">
                 <div
                   ref={(el) => {
                     if (el) contentRefs.current[slide.id] = el;
                   }}
-                  className="max-w-3xl space-y-5 pt-6 text-white sm:pt-10 lg:pt-5"
+                  className="max-w-lg space-y-5 text-white"
                 >
-                  <p className="max-w-xl text-sm font-semibold uppercase tracking-[0.28em] text-stone-100/90">
+                  <p className="text-sm font-semibold uppercase tracking-[0.28em] text-white/70">
                     {slide.eyebrow}
                   </p>
 
-                  <h2 className="max-w-2xl text-xl font-semibold leading-tight text-balance sm:text-4xl lg:text-5xl">
+                  <h2 className="text-balance text-2xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
                     {slide.title}
                   </h2>
 
-                  <p className="max-w-xl text-base leading-7 text-stone-200 sm:text-lg">
+                  <p className="max-w-md text-base leading-7 text-white/85 sm:text-lg">
                     {slide.description}
                   </p>
 
                   <RoundedTwoCornerButton href={slide.link} className="mt-6">
                     {slide.buttonLabel}
                   </RoundedTwoCornerButton>
+                </div>
+              </div>
+
+              {/* Photo panel — tilted parallelogram frame, alternating side */}
+              <div className="relative flex-1 lg:w-1/2">
+                <div
+                  ref={(el) => {
+                    if (el) frameRefs.current[slide.id] = el;
+                  }}
+                  className="absolute inset-0 overflow-hidden"
+                >
+                  <div
+                    ref={(el) => {
+                      if (el) imageRefs.current[slide.id] = el;
+                    }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={slide.image}
+                      alt={slide.imageAlt}
+                      fill
+                      priority={index === 0}
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,0.05)_0%,rgba(10,10,10,0.35)_100%)]" />
                 </div>
               </div>
             </article>

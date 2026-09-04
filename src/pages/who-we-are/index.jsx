@@ -279,7 +279,7 @@ export default function WhoWeArePage() {
 
       <DualDivSection
         id="our-journey"
-        image="/images/jurney.jpg"
+        image="/images/office-images/office-3.jpg"
         imageAlt="A retail destination showcasing innovative spaces and experiences."
         smallTitle="OUR JOURNEY"
         title="Steady Growth, Built on Trust"

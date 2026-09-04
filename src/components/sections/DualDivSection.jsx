@@ -8,6 +8,18 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Tilted parallelogram frame — mirrored so the tilt reads correctly
+// whichever side the image sits on. Same shape language as the
+// WhatweDo slider's photo panels.
+const FRAME_CLIP_RIGHT = "polygon(8% 0%, 100% 4%, 92% 100%, 0% 96%)";
+const FRAME_CLIP_LEFT = "polygon(0% 4%, 92% 0%, 100% 96%, 8% 100%)";
+
+// Starting (collapsed) clip for the entrance wipe — the frame reveals
+// from the edge closest to where it slides in from.
+const HIDDEN_CLIP_FROM_RIGHT =
+  "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)";
+const HIDDEN_CLIP_FROM_LEFT = "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)";
+
 export default function DualDivSection({
   id,
   image,
@@ -20,11 +32,18 @@ export default function DualDivSection({
   imageOnRight = false,
 }) {
   const sectionRef = useRef(null);
-  const imageWrapRef = useRef(null);
+  const frameRef = useRef(null);
   const eyebrowRef = useRef(null);
   const titleRef = useRef(null);
   const copyRef = useRef(null);
   const buttonRef = useRef(null);
+
+  // Image sits on the right side of the row when NOT imageOnRight-flipped
+  // relative to text... i.e. the visual side follows imageOnRight directly.
+  const targetClip = imageOnRight ? FRAME_CLIP_LEFT : FRAME_CLIP_RIGHT;
+  const startClip = imageOnRight
+    ? HIDDEN_CLIP_FROM_LEFT
+    : HIDDEN_CLIP_FROM_RIGHT;
 
   useLayoutEffect(() => {
     const prefersReducedMotion = window.matchMedia(
@@ -39,19 +58,14 @@ export default function DualDivSection({
         buttonRef.current,
       ].filter(Boolean);
 
+      gsap.set(frameRef.current, { clipPath: startClip });
+
       if (prefersReducedMotion) {
-        gsap.set([imageWrapRef.current, ...textEls], {
-          opacity: 1,
-          x: 0,
-          y: 0,
-        });
+        gsap.set(frameRef.current, { clipPath: targetClip, opacity: 1 });
+        gsap.set(textEls, { opacity: 1, y: 0 });
         return;
       }
 
-      gsap.set(imageWrapRef.current, {
-        opacity: 0,
-        x: imageOnRight ? 64 : -64,
-      });
       gsap.set(textEls, { opacity: 0, y: 24 });
 
       const tl = gsap.timeline({
@@ -63,15 +77,19 @@ export default function DualDivSection({
         },
       });
 
-      tl.to(imageWrapRef.current, { opacity: 1, x: 0, duration: 1 }).to(
+      tl.to(frameRef.current, {
+        clipPath: targetClip,
+        duration: 1.1,
+        ease: "power3.inOut",
+      }).to(
         textEls,
         { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 },
-        "-=0.65",
+        "-=0.7",
       );
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [imageOnRight]);
+  }, [imageOnRight, targetClip, startClip]);
 
   return (
     <section
@@ -87,20 +105,21 @@ export default function DualDivSection({
       >
         <div className="flex w-full items-center justify-center lg:w-1/2">
           <div
-            ref={imageWrapRef}
-            className="relative w-full overflow-hidden rounded-[2rem] bg-stone-100 shadow-[0_24px_80px_rgba(15,23,42,0.14)]"
+            ref={frameRef}
+            className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[3/4] lg:aspect-[4/5] lg:min-h-[32rem] xl:min-h-[36rem]"
           >
             <Image
               src={image}
               alt={imageAlt ?? smallTitle}
-              width={1200}
-              height={700}
+              fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="h-auto w-full object-cover"
+              className="object-center object-cover"
             />
           </div>
         </div>
 
+        {/* Text column — no background, no card, sits directly on the
+            section's own bg-white. */}
         <div className="w-full lg:w-1/2 lg:pr-10">
           <h2
             ref={eyebrowRef}
