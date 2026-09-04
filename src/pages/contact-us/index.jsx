@@ -166,7 +166,6 @@ export default function ContactUsPage() {
     setHasOpenedDraft(true);
   };
 
-  // Hero: headline block staggers in, quick-contact card follows
   useReveal(heroRef, ({ prefersReducedMotion }) => {
     const textEls = heroTextRefs.current.filter(Boolean);
 
@@ -248,8 +247,6 @@ export default function ContactUsPage() {
       );
   });
 
-  // Send a Brief + What Happens Next: form panel slides from left,
-  // sidebar steps stagger in from the right, slightly overlapping.
   useReveal(formSectionRef, ({ prefersReducedMotion }) => {
     const steps = stepCardRefs.current.filter(Boolean);
 
