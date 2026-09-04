@@ -77,7 +77,7 @@ export default function Footer() {
                   alt="Ljudia"
                   width={1500}
                   height={1394}
-                  className="h-10 w-auto object-contain sm:h-12"
+                  className="h-12 w-auto object-contain sm:h-16"
                 />
               </Link>
 

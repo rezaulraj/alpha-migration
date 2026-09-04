@@ -21,6 +21,12 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Bottom edge slants diagonally across the full width — bottom-left stays
+// at full height, bottom-right cuts up short. Same shape used on the
+// homepage, Who We Are, People & Careers, and Leadership Institute heroes.
+const DIAGONAL_BOTTOM_CLASS =
+  "[clip-path:polygon(0_0,100%_0,100%_82%,0_100%)] sm:[clip-path:polygon(0_0,100%_0,100%_85%,0_100%)] lg:[clip-path:polygon(0_0,100%_0,100%_88%,0_100%)]";
+
 const CONTACT_EMAIL = "contact@alphamigrations.eu";
 
 const LOCATIONS = [
@@ -187,7 +193,6 @@ export default function ContactUsPage() {
       );
   });
 
-  // Our Locations: header, then map cards
   useReveal(locationsSectionRef, ({ prefersReducedMotion }) => {
     const headerEls = locationsHeaderRefs.current.filter(Boolean);
     const cards = locationCardRefs.current.filter(Boolean);
@@ -217,7 +222,6 @@ export default function ContactUsPage() {
       );
   });
 
-  // Choose Your Route: header, then the three channel cards
   useReveal(routeSectionRef, ({ prefersReducedMotion }) => {
     const headerEls = routeHeaderRefs.current.filter(Boolean);
     const cards = routeCardRefs.current.filter(Boolean);
@@ -288,103 +292,108 @@ export default function ContactUsPage() {
       </Head>
 
       {/* 8.1 Hero */}
-      <section
-        ref={heroRef}
-        className="relative isolate min-h-[42rem] overflow-hidden bg-stone-950"
-      >
-        <Image
-          src="/images/office-images/office-1.jpg"
-          alt="Alpha Migrations team collaboration space"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/45" />
-        <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(17,24,39,0.92)_0%,rgba(17,24,39,0.78)_42%,rgba(17,24,39,0.36)_100%)]" />
-        <ConnectionCanvas
-          dotCount={44}
-          maxLinkDistance={150}
-          dotColor="216, 180, 122"
-          lineColor="216, 180, 122"
-          className="opacity-50"
-        />
+      <div className="bg-white">
+        <section
+          ref={heroRef}
+          className={[
+            "relative isolate min-h-[42rem] overflow-hidden bg-stone-950",
+            DIAGONAL_BOTTOM_CLASS,
+          ].join(" ")}
+        >
+          <Image
+            src="/images/office-images/office-1.jpg"
+            alt="Alpha Migrations team collaboration space"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black/45" />
+          <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(17,24,39,0.92)_0%,rgba(17,24,39,0.78)_42%,rgba(17,24,39,0.36)_100%)]" />
+          <ConnectionCanvas
+            dotCount={44}
+            maxLinkDistance={150}
+            dotColor="216, 180, 122"
+            lineColor="216, 180, 122"
+            className="opacity-50"
+          />
 
-        <div className="relative z-10 mx-auto grid min-h-[42rem] max-w-full gap-10 px-6 py-16 sm:px-10 sm:py-20 lg:grid-cols-[minmax(0,1.15fr)_24rem] lg:px-16 lg:py-24">
-          <div className="flex items-end">
-            <div className="max-w-4xl text-white">
-              <p
-                ref={(el) => {
-                  heroTextRefs.current[0] = el;
-                }}
-                className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-100 sm:text-base"
-              >
-                Contact Us
-              </p>
-              <h1
-                ref={(el) => {
-                  heroTextRefs.current[1] = el;
-                }}
-                className="mt-4 text-4xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl"
-              >
-                Start the Right Conversation
-              </h1>
-              <p
-                ref={(el) => {
-                  heroTextRefs.current[2] = el;
-                }}
-                className="mt-6 max-w-2xl text-base leading-7 text-stone-100 sm:mt-7 sm:text-lg sm:leading-8"
-              >
-                Whether you&apos;re hiring international workers, exploring
-                opportunities abroad, or exploring a partnership, our team will
-                route your enquiry to the right people.
-              </p>
+          <div className="relative z-10 mx-auto grid min-h-[42rem] max-w-full gap-10 px-6 py-16 sm:px-10 sm:py-20 lg:grid-cols-[minmax(0,1.15fr)_24rem] lg:px-16 lg:py-24">
+            <div className="flex items-end">
+              <div className="max-w-4xl text-white">
+                <p
+                  ref={(el) => {
+                    heroTextRefs.current[0] = el;
+                  }}
+                  className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-100 sm:text-base"
+                >
+                  Contact Us
+                </p>
+                <h1
+                  ref={(el) => {
+                    heroTextRefs.current[1] = el;
+                  }}
+                  className="mt-4 text-4xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl"
+                >
+                  Start the Right Conversation
+                </h1>
+                <p
+                  ref={(el) => {
+                    heroTextRefs.current[2] = el;
+                  }}
+                  className="mt-6 max-w-2xl text-base leading-7 text-stone-100 sm:mt-7 sm:text-lg sm:leading-8"
+                >
+                  Whether you&apos;re hiring international workers, exploring
+                  opportunities abroad, or exploring a partnership, our team
+                  will route your enquiry to the right people.
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div
-            ref={quickContactRef}
-            className="self-end rounded-[2rem] border border-white/15 bg-white/10 p-6 text-white shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:p-8"
-          >
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--navbar-accent)]">
-              Quick Contact
-            </p>
-            <h2 className="mt-4 text-2xl font-semibold leading-tight sm:text-3xl">
-              Direct. Efficient. Responsive.
-            </h2>
-            <p className="mt-4 text-sm leading-7 text-white/80 sm:text-base">
-              Prefer immediate outreach? Email us directly for a faster, focused
-              response.
-            </p>
-
-            <Link
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--navbar-surface)] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--pinkLight)]"
+            <div
+              ref={quickContactRef}
+              className="self-end rounded-[2rem] border border-white/15 bg-white/10 p-6 text-white shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:p-8"
             >
-              {CONTACT_EMAIL}
-            </Link>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--navbar-accent)]">
+                Quick Contact
+              </p>
+              <h2 className="mt-4 text-2xl font-semibold leading-tight sm:text-3xl">
+                Direct. Efficient. Responsive.
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-white/80 sm:text-base">
+                Prefer immediate outreach? Email us directly for a faster,
+                focused response.
+              </p>
 
-            <div className="mt-8 space-y-4 border-t border-white/10 pt-6">
-              <div className="flex items-start justify-between gap-4">
-                <span className="text-xs uppercase tracking-[0.22em] text-white/60">
-                  Typical Enquiries
-                </span>
-                <span className="text-right text-sm text-white/80">
-                  Hiring requirements, candidate registration, partnerships
-                </span>
-              </div>
-              <div className="flex items-start justify-between gap-4">
-                <span className="text-xs uppercase tracking-[0.22em] text-white/60">
-                  Our Response Approach
-                </span>
-                <span className="text-right text-sm text-white/80">
-                  Clear direction and actionable next steps
-                </span>
+              <Link
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--navbar-surface)] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--navbar-accent-strong)]"
+              >
+                {CONTACT_EMAIL}
+              </Link>
+
+              <div className="mt-8 space-y-4 border-t border-white/10 pt-6">
+                <div className="flex items-start justify-between gap-4">
+                  <span className="text-xs uppercase tracking-[0.22em] text-white/60">
+                    Typical Enquiries
+                  </span>
+                  <span className="text-right text-sm text-white/80">
+                    Hiring requirements, candidate registration, partnerships
+                  </span>
+                </div>
+                <div className="flex items-start justify-between gap-4">
+                  <span className="text-xs uppercase tracking-[0.22em] text-white/60">
+                    Our Response Approach
+                  </span>
+                  <span className="text-right text-sm text-white/80">
+                    Clear direction and actionable next steps
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* 8.2 Our Locations */}
       <section ref={locationsSectionRef} className="bg-white">
@@ -490,7 +499,7 @@ export default function ContactUsPage() {
 
                 <Link
                   href={channel.href}
-                  className="mt-8 inline-flex items-center justify-center text-center rounded-tr-4xl rounded-bl-4xl bg-[var(--navbar-surface)] px-5 py-5 text-sm font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--pinkLight)]"
+                  className="mt-8 inline-flex items-center justify-center text-center rounded-tr-4xl rounded-bl-4xl bg-[var(--navbar-surface)] px-5 py-5 text-sm font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--navbar-accent-strong)]"
                 >
                   {channel.linkLabel}
                 </Link>
@@ -590,7 +599,7 @@ export default function ContactUsPage() {
                 <div className="flex flex-col gap-3 pt-2 sm:col-span-2">
                   <button
                     type="submit"
-                    className="inline-flex items-center justify-center text-center rounded-tr-4xl rounded-bl-4xl bg-[var(--navbar-surface)] px-5 py-5 text-sm font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--pinkLight)]"
+                    className="inline-flex items-center justify-center text-center rounded-tr-4xl rounded-bl-4xl bg-[var(--navbar-surface)] px-5 py-5 text-sm font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--navbar-accent-strong)]"
                   >
                     Submit Your Brief
                   </button>

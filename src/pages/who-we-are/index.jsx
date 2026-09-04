@@ -10,6 +10,12 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Bottom edge slants diagonally across the full width — bottom-left stays
+// at full height, bottom-right cuts up short. Top-left and top-right stay
+// square. Same shape used on the homepage hero.
+const DIAGONAL_BOTTOM_CLASS =
+  "[clip-path:polygon(0_0,100%_0,100%_82%,0_100%)] sm:[clip-path:polygon(0_0,100%_0,100%_85%,0_100%)] lg:[clip-path:polygon(0_0,100%_0,100%_88%,0_100%)]";
+
 function useReveal(sectionRef, build) {
   useLayoutEffect(() => {
     const prefersReducedMotion = window.matchMedia(
@@ -49,7 +55,6 @@ function HeroSection() {
       .timeline({ defaults: { ease: "power3.out" }, delay: 0.15 })
       .to(textEls, { opacity: 1, y: 0, duration: 0.8, stagger: 0.14 });
 
-    // Parallax on the hero background as the page scrolls past it
     gsap.set(imageRef.current, { scale: 1.15, y: 0 });
     gsap.to(imageRef.current, {
       y: 80,
@@ -64,56 +69,61 @@ function HeroSection() {
   });
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative isolate min-h-[44rem] overflow-hidden bg-stone-950"
-    >
-      <div ref={imageRef} className="absolute inset-0">
-        <Image
-          src="/images/who_we_are_spolight_thumbnail.avif"
-          alt="Who we are spotlight"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-      </div>
-      <div className="absolute inset-0 bg-black/35" />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,24,39,0.86)_0%,rgba(17,24,39,0.72)_36%,rgba(17,24,39,0.18)_100%)]" />
+    <div className="bg-white">
+      <section
+        ref={sectionRef}
+        className={[
+          "relative isolate min-h-[44rem] overflow-hidden bg-stone-950",
+          DIAGONAL_BOTTOM_CLASS,
+        ].join(" ")}
+      >
+        <div ref={imageRef} className="absolute inset-0">
+          <Image
+            src="/images/who_we_are_spolight_thumbnail.avif"
+            alt="Who we are spotlight"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-black/35" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,24,39,0.86)_0%,rgba(17,24,39,0.72)_36%,rgba(17,24,39,0.18)_100%)]" />
 
-      <div className="relative z-10 mx-auto flex min-h-[44rem] max-w-full items-center px-6 py-16 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
-        <div className="max-w-4xl text-white">
-          <h1
-            ref={titleRef}
-            className="text-5xl font-bold leading-none tracking-tight sm:text-6xl lg:text-7xl"
-          >
-            Vision-Driven. People-Focused.
-          </h1>
-
-          <div
-            ref={copyRef}
-            className="mt-8 max-w-3xl space-y-5 text-base leading-8 text-stone-100 sm:text-lg"
-          >
-            <p>
-              Alpha Migrations is a UK-based international recruitment agency.
-              We connect employers across Europe and the CIS with skilled and
-              semi-skilled workers from South Asia and the Gulf, managing every
-              stage of the process — sourcing, documentation, deployment, and
-              support — directly.
-            </p>
-          </div>
-
-          <div ref={ctaRef}>
-            <RoundedTwoCornerButton
-              href="#vision-values"
-              className="px-7 py-4 mt-8"
+        <div className="relative z-10 mx-auto flex min-h-[44rem] max-w-full items-center px-6 py-16 sm:px-10 sm:py-20 lg:px-16 lg:py-24">
+          <div className="max-w-4xl text-white">
+            <h1
+              ref={titleRef}
+              className="text-5xl font-bold leading-none tracking-tight sm:text-6xl lg:text-7xl"
             >
-              Meet Our Approach
-            </RoundedTwoCornerButton>
+              Vision-Driven. People-Focused.
+            </h1>
+
+            <div
+              ref={copyRef}
+              className="mt-8 max-w-3xl space-y-5 text-base leading-8 text-stone-100 sm:text-lg"
+            >
+              <p>
+                Alpha Migrations is a UK-based international recruitment agency.
+                We connect employers across Europe and the CIS with skilled and
+                semi-skilled workers from South Asia and the Gulf, managing
+                every stage of the process — sourcing, documentation,
+                deployment, and support — directly.
+              </p>
+            </div>
+
+            <div ref={ctaRef}>
+              <RoundedTwoCornerButton
+                href="#vision-values"
+                className="px-7 py-4 mt-8"
+              >
+                Meet Our Approach
+              </RoundedTwoCornerButton>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
 

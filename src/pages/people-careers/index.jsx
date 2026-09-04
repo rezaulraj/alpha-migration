@@ -19,6 +19,12 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Bottom edge slants diagonally across the full width — bottom-left stays
+// at full height, bottom-right cuts up short. Same shape used on the
+// homepage and Who We Are heroes.
+const DIAGONAL_BOTTOM_CLASS =
+  "[clip-path:polygon(0_0,100%_0,100%_82%,0_100%)] sm:[clip-path:polygon(0_0,100%_0,100%_85%,0_100%)] lg:[clip-path:polygon(0_0,100%_0,100%_88%,0_100%)]";
+
 const JOURNEY_STEPS = [
   {
     number: "01",
@@ -129,13 +135,10 @@ function YourJourneySection() {
         </div>
       </div>
 
-      {/* Desktop: canvas-drawn route with scroll-scrubbed progress line */}
       <div className="mt-12">
         <JourneyRouteSection steps={JOURNEY_STEPS} />
       </div>
 
-      {/* Mobile/tablet: simple vertical stepper (the route layout needs
-          the width lg: provides for its alternating left/right cards) */}
       <div className="mx-auto max-w-6xl px-6 sm:px-10 lg:hidden lg:px-16">
         <div className="relative mt-12 space-y-8">
           <div className="absolute bottom-0 left-8 top-2 w-px bg-stone-200" />
@@ -260,7 +263,14 @@ function CandidateSupportSection() {
 export default function PeopleCareersPage() {
   return (
     <>
-      <section className="relative isolate min-h-[38rem] overflow-hidden bg-stone-950 sm:min-h-[44rem]">
+    <div className="bg-white">
+
+      <section
+        className={[
+          "relative isolate min-h-[38rem] overflow-hidden bg-stone-950 sm:min-h-[44rem]",
+          DIAGONAL_BOTTOM_CLASS,
+        ].join(" ")}
+      >
         <Image
           src="/images/buildyourself.avif"
           alt="People and Careers at Majid Al Futtaim"
@@ -308,6 +318,7 @@ export default function PeopleCareersPage() {
           </div>
         </div>
       </section>
+    </div>
 
       <DualDivSection
         id="career-culture"
