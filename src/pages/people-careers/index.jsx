@@ -20,9 +20,6 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Bottom edge slants diagonally across the full width — bottom-left stays
-// at full height, bottom-right cuts up short. Same shape used on the
-// homepage and Who We Are heroes.
 const DIAGONAL_BOTTOM_CLASS =
   "[clip-path:polygon(0_0,100%_0,100%_82%,0_100%)] sm:[clip-path:polygon(0_0,100%_0,100%_85%,0_100%)] lg:[clip-path:polygon(0_0,100%_0,100%_88%,0_100%)]";
 

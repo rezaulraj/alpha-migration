@@ -20,6 +20,9 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const DIAGONAL_BOTTOM_CLASS =
+  "[clip-path:polygon(0_0,100%_0,100%_82%,0_100%)] sm:[clip-path:polygon(0_0,100%_0,100%_85%,0_100%)] lg:[clip-path:polygon(0_0,100%_0,100%_96%,0_100%)]";
+
 const SECTORS = [
   { id: "construction", label: "Construction", Icon: GiHelmet },
   { id: "hospitality", label: "Hospitality", Icon: GiRingingBell },
@@ -81,7 +84,6 @@ function HeroSection() {
       stagger: 0.08,
     }).to(textEls, { opacity: 1, y: 0, duration: 0.8, stagger: 0.12 }, "-=0.6");
 
-    // Slow ambient float on the background icon cluster, looping
     icons.forEach((icon, i) => {
       gsap.to(icon, {
         y: i % 2 === 0 ? -14 : 14,
@@ -94,64 +96,69 @@ function HeroSection() {
   });
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative isolate flex min-h-[38rem] items-center overflow-hidden bg-stone-950"
-    >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(123,19,48,0.28),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.05),transparent_40%)]" />
-      <div
-        ref={motifRef}
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 flex items-center justify-end pr-6 sm:pr-14 lg:pr-24"
+    <div className="bg-white">
+      <section
+        ref={sectionRef}
+        className={[
+          "relative isolate flex min-h-[38rem] items-center overflow-hidden bg-stone-950",
+          DIAGONAL_BOTTOM_CLASS,
+        ].join(" ")}
       >
-        <div className="grid grid-cols-3 gap-6 opacity-90 sm:gap-10">
-          {HERO_MOTIF_ICONS.map((Icon, i) => (
-            <Icon
-              key={i}
-              ref={(el) => {
-                iconRefs.current[i] = el;
-              }}
-              className="text-white"
-              style={{
-                fontSize: i % 2 === 0 ? "3.5rem" : "2.5rem",
-                marginTop: i % 3 === 0 ? "1.5rem" : 0,
-              }}
-            />
-          ))}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(123,19,48,0.28),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.05),transparent_40%)]" />
+        <div
+          ref={motifRef}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 flex items-center justify-end pr-6 sm:pr-14 lg:pr-24"
+        >
+          <div className="grid grid-cols-3 gap-6 opacity-90 sm:gap-10">
+            {HERO_MOTIF_ICONS.map((Icon, i) => (
+              <Icon
+                key={i}
+                ref={(el) => {
+                  iconRefs.current[i] = el;
+                }}
+                className="text-white"
+                style={{
+                  fontSize: i % 2 === 0 ? "3.5rem" : "2.5rem",
+                  marginTop: i % 3 === 0 ? "1.5rem" : 0,
+                }}
+              />
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-10 lg:px-16">
-        <p
-          ref={eyebrowRef}
-          className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-100/90 sm:text-base"
-        >
-          Industries & Locations
-        </p>
+        <div className="relative z-10 mx-auto w-full max-w-4xl px-6 sm:px-10 lg:px-16">
+          <p
+            ref={eyebrowRef}
+            className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-100/90 sm:text-base"
+          >
+            Industries & Locations
+          </p>
 
-        <h1
-          ref={titleRef}
-          className="mt-4 max-w-2xl text-balance text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl"
-        >
-          Where We Work, and Who We Place
-        </h1>
+          <h1
+            ref={titleRef}
+            className="mt-4 max-w-2xl text-balance text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl"
+          >
+            Where We Work, and Who We Place
+          </h1>
 
-        <p
-          ref={copyRef}
-          className="mt-6 max-w-xl text-base leading-8 text-stone-200 sm:text-lg"
-        >
-          Alpha Migrations recruits across six core sectors, sourcing candidates
-          from South Asia and the Gulf for placement with employers throughout
-          Europe and the CIS.
-        </p>
+          <p
+            ref={copyRef}
+            className="mt-6 max-w-xl text-base leading-8 text-stone-200 sm:text-lg"
+          >
+            Alpha Migrations recruits across six core sectors, sourcing
+            candidates from South Asia and the Gulf for placement with employers
+            throughout Europe and the CIS.
+          </p>
 
-        <div ref={ctaRef} className="mt-8">
-          <RoundedTwoCornerButton href="/contact-us" className="px-7 py-4">
-            Discuss Your Hiring Needs
-          </RoundedTwoCornerButton>
+          <div ref={ctaRef} className="mt-8">
+            <RoundedTwoCornerButton href="/contact-us" className="px-7 py-4">
+              Discuss Your Hiring Needs
+            </RoundedTwoCornerButton>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
 
@@ -392,7 +399,6 @@ function ClosingCTA() {
       return;
     }
 
-    // Text entrance, once
     gsap.set(els, { opacity: 0, y: 24 });
 
     gsap
@@ -406,8 +412,6 @@ function ClosingCTA() {
       })
       .to(els, { opacity: 1, y: 0, duration: 0.7, stagger: 0.12 });
 
-    // Background parallax, scrubbed to scroll — matches the Leadership
-    // Institute section's treatment
     gsap.set(imageRef.current, { scale: 1.15, y: 0 });
     gsap.to(imageRef.current, {
       y: 70,
@@ -459,7 +463,7 @@ function ClosingCTA() {
         <div ref={ctaRef} className="mt-8 flex justify-center">
           <Link
             href="/contact-us"
-            className="inline-flex h-12 items-center justify-center rounded-full border border-white bg-white px-7 py-4 text-sm font-semibold text-[var(--navbar-surface)] transition-opacity hover:opacity-90"
+            className="inline-flex items-center justify-center text-center rounded-tr-4xl rounded-bl-4xl bg-[var(--navbar-surface)] px-5 py-5 text-sm font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--pinkLight)]"
           >
             Talk to Our Team
           </Link>
