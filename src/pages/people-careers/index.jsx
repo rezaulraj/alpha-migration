@@ -282,12 +282,12 @@ export default function PeopleCareersPage() {
           ].join(" ")}
         >
           <Image
-            src="/images/buildyourself.avif"
+            src="/images/heropeople.png"
             alt="People and Careers at Majid Al Futtaim"
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="object-contain object-fill"
           />
           <div className="absolute inset-0 bg-black/35" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,24,39,0.86)_0%,rgba(17,24,39,0.72)_38%,rgba(17,24,39,0.2)_100%)]" />
@@ -332,7 +332,7 @@ export default function PeopleCareersPage() {
 
       <DualDivSection
         id="career-culture"
-        image="/images/office-images/office-1.jpg"
+        image="/images/sector.png"
         imageAlt="Colleagues in a collaborative workspace discussing ideas."
         smallTitle="OPPORTUNITIES BY SECTOR"
         title="Roles Across Six Core Sectors"

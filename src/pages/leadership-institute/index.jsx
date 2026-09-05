@@ -235,7 +235,7 @@ export default function LeadershipInstitutePage() {
 
       <DualDivSection
         id="mission-overview"
-        image="/images/learning-mission-and-overview.avif"
+        image="/images/missionandoverview.png"
         imageAlt="Leadership development participants in a collaborative learning session."
         smallTitle="MISSION & OVERVIEW"
         title="Ready Before Day One"

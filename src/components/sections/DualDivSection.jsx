@@ -113,7 +113,7 @@ export default function DualDivSection({
               alt={imageAlt ?? smallTitle}
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-center object-cover"
+              className="object-center object-fill"
             />
           </div>
         </div>
