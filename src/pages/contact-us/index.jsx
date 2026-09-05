@@ -21,9 +21,6 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Bottom edge slants diagonally across the full width — bottom-left stays
-// at full height, bottom-right cuts up short. Same shape used on the
-// homepage, Who We Are, People & Careers, and Leadership Institute heroes.
 const DIAGONAL_BOTTOM_CLASS =
   "[clip-path:polygon(0_0,100%_0,100%_82%,0_100%)] sm:[clip-path:polygon(0_0,100%_0,100%_85%,0_100%)] lg:[clip-path:polygon(0_0,100%_0,100%_88%,0_100%)]";
 
@@ -367,7 +364,7 @@ export default function ContactUsPage() {
 
               <Link
                 href={`mailto:${CONTACT_EMAIL}`}
-                className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--navbar-surface)] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--navbar-accent-strong)]"
+                className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--navbar-surface)] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--pinkLight)]"
               >
                 {CONTACT_EMAIL}
               </Link>
@@ -499,7 +496,7 @@ export default function ContactUsPage() {
 
                 <Link
                   href={channel.href}
-                  className="mt-8 inline-flex items-center justify-center text-center rounded-tr-4xl rounded-bl-4xl bg-[var(--navbar-surface)] px-5 py-5 text-sm font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--navbar-accent-strong)]"
+                  className="mt-8 inline-flex items-center justify-center text-center rounded-tr-4xl rounded-bl-4xl bg-[var(--navbar-surface)] px-5 py-5 text-sm font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--pinkLight)]"
                 >
                   {channel.linkLabel}
                 </Link>
@@ -599,7 +596,7 @@ export default function ContactUsPage() {
                 <div className="flex flex-col gap-3 pt-2 sm:col-span-2">
                   <button
                     type="submit"
-                    className="inline-flex items-center justify-center text-center rounded-tr-4xl rounded-bl-4xl bg-[var(--navbar-surface)] px-5 py-5 text-sm font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--navbar-accent-strong)]"
+                    className="inline-flex items-center justify-center text-center rounded-tr-4xl rounded-bl-4xl bg-[var(--navbar-surface)] px-5 py-5 text-sm font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--pinkLight)]"
                   >
                     Submit Your Brief
                   </button>
